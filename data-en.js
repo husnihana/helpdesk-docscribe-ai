@@ -102,6 +102,6 @@ window.VIDEOS = [
 ];
 
 window.PAPERS = [
-  { tag: 'White Paper', title: 'The Future of Document Intelligence in Enterprise Organizations', desc: 'How AI-powered document management is transforming knowledge work and unlocking trapped organizational knowledge.', file: 'docs/Doc-Scribe_Security_Whitepaper.pdf' },
-  { tag: 'Technical Guide', title: 'AI-Powered Document Processing: Architecture & Security', desc: 'A deep dive into Doc-Scribe.ai private AI architecture, data security model, and deployment options for enterprise environments.', file: 'docs/Use-Cases-for-Vertical-Industries.pdf' }
+  { tag: 'White Paper', title: 'The Future of Document Intelligence in Enterprise Organizations', desc: 'How AI-powered document management is transforming knowledge work and unlocking trapped organizational knowledge.', file: 'docs/Doc-Scribe_Security_Whitepaper_Jan2026_v2.pdf' },
+  { tag: 'Technical Guide', title: 'AI-Powered Document Processing: Architecture & Security', desc: 'A deep dive into Doc-Scribe.ai private AI architecture, data security model, and deployment options for enterprise environments.', file: 'docs/Use Cases for Vertical Industries.pdf' }
 ];
