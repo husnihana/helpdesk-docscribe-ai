@@ -75,6 +75,12 @@ window.CATS = [
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3.1-6 7-6s7 2.5 7 6"/><circle cx="19" cy="6" r="2.5"/><path d="M19 3.5v1M19 8.5v1M17.5 5h-1M21.5 7h1M17.8 4.2l-.7-.7M20.9 7.3l.7.7M17.8 7.8l-.7.7M20.9 4.7l.7-.7"/></svg>'
   },
   {
+    id: 'faq', title: '常见问题', bg: '#fff7ed', fg: '#c2410c',
+    desc: '关于 Doc-Scribe.ai 最常见问题的快速解答。',
+    arts: ['faq-general'],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+  },
+  {
     id: 'troubleshooting', title: '故障排除', bg: '#fee2e2', fg: '#dc2626',
     desc: '查找常见问题的解决方案，快速恢复正常使用。',
     arts: ['troubleshooting', 'data-security'],
@@ -167,8 +173,10 @@ window.ARTS = {
 
 'data-security': { 
     cat: 'troubleshooting', title: '数据隐私与安全', exc: 'Doc-Scribe.ai 如何保护您的企业数据。', 
-    body: '<h2>核心安全特性</h2><ul><li><strong>私有 AI 环境</strong> —— 数据不出私有实例环境</li><li><strong>端到端加密</strong> —— 传输与静态存储均严格加密</li><li><strong>审计日志</strong> —— 记录所有文档操作行为</li></ul>' 
-  }
+    body: '<h2>核心安全特性</h2><ul><li><strong>私有 AI 环境</strong> —— 数据不出私有实例环境</li><li><strong>端到端加密</strong> —— 传输与静态存储均严格加密</li><li><strong>审计日志</strong> —— 记录所有文档操作行为</li></ul>'
+  },
+
+  'faq-general': { cat: 'faq', title: '常见问题', exc: '关于 Doc-Scribe.ai 最常见问题的快速解答。', body: '<p>在下方快速找到关于 Doc-Scribe.ai 最常见问题的解答。</p><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">Doc-Scribe.ai 是什么？<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">Doc-Scribe.ai 是一个 AI 驱动的文档智能平台。上传您的文档并通过自然语言与其交互 &mdash; 无需手动搜索，只需提问即可获得即时答案。</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">我的数据安全且私密吗？<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">是的。Doc-Scribe.ai 在私有 AI 环境中运行 &mdash; 您的文档永远不会离开您的组织。数据在静态（AES-256）和传输中（TLS 1.3）均已加密。您的数据绝不用于训练 AI 模型。</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">我可以上传哪些文件类型？<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">支持的格式：PDF、DOCX、DOC、TXT、RTF、XLSX、XLS、CSV、PPTX、PPT、PNG、JPG、JPEG、TIFF、MSG、EML、DWG 和 DXF。</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">AI 搜索如何工作？<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">选择文档并点击 AI 搜索。用自然语言输入您的问题 &mdash; 例如"总结这份文档"或"发票总金额是多少？" &mdash; AI 将立即返回准确答案。</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">有哪些 AI 模式可用？<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">六种模式：通用查询（日常问题）、可视化（图表）、分析师（深度分析）、审查员（错误检查）、转录（会议分析）和提取器（结构化数据导出）。</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">My Box 和分类有什么区别？<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">My Box 是您的私人空间 &mdash; 只有您可以看到存储在那里的文件。分类是共享的部门文件夹，具有适当权限的团队成员可以访问。</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">我可以与其他用户共享文档吗？<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">可以。打开文档，点击共享，选择用户，并选择权限级别：可查看（查看并使用 AI）或可下载（查看并下载文件）。</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">平台支持哪些语言？<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">Doc-Scribe.ai 支持英语、马来语、简体中文、泰语、印地语和日语。从右上角的地球图标切换语言。</div></div></div>' }
 };
 
 window.VIDEOS = [
@@ -177,6 +185,6 @@ window.VIDEOS = [
 ];
 
 window.PAPERS = [
-  { tag: '白皮书', title: '企业文档智能的未来', desc: 'AI 驱动如何重塑知识工作并解锁沉睡的组织智慧।', file: 'docs/Doc-Scribe_Security_Whitepaper.pdf' },
-  { tag: '技术指南', title: 'AI 处理架构与安全深度分析', desc: '深入了解 Doc-Scribe.ai 的私有架构、安全模型和部署方案।', file: 'docs/Use-Cases-for-Vertical-Industries.pdf' }
+  { tag: '白皮书', title: '企业文档智能的未来', desc: 'AI 驱动如何重塑知识工作并解锁沉睡的组织智慧。', file: 'docs/Doc-Scribe_Security_Whitepaper_Jan2026_v2_zh.pdf' },
+  { tag: '技术指南', title: 'AI 处理架构与安全深度分析', desc: '深入了解 Doc-Scribe.ai 的私有架构、安全模型和部署方案。', file: 'docs/Use Cases for Vertical Industries_zh.pdf' }
 ];

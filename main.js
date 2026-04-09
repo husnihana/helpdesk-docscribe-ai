@@ -209,9 +209,24 @@ function renderResourceGrid() {
   `).join('');
 }
 
+const SECTION_IDS = ['resources', 'tutorials'];
+
 function handleRouteChange() {
   const id = window.location.hash.slice(1);
-  if (id && window.ARTS && window.ARTS[id]) {
+  if (id && SECTION_IDS.includes(id)) {
+    // Show home view, then smooth-scroll to the named section
+    document.getElementById('homeView').style.display = 'block';
+    document.getElementById('articleView').style.display = 'none';
+    document.getElementById('sidebar').style.display = 'none';
+    document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+    requestAnimationFrame(() => {
+      const section = document.getElementById(id);
+      const main = document.querySelector('main');
+      if (section && main) {
+        main.scrollTo({ top: section.offsetTop - 24, behavior: 'smooth' });
+      }
+    });
+  } else if (id && window.ARTS && window.ARTS[id]) {
     showArt(id);
   } else {
     showHome();
@@ -219,7 +234,8 @@ function handleRouteChange() {
 }
 
 function showHome() {
-  if (window.location.hash) {
+  const currentHash = window.location.hash.slice(1);
+  if (currentHash && !SECTION_IDS.includes(currentHash)) {
     window.location.hash = '';
     return;
   }

@@ -75,6 +75,12 @@ window.CATS = [
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3.1-6 7-6s7 2.5 7 6"/><circle cx="19" cy="6" r="2.5"/><path d="M19 3.5v1M19 8.5v1M17.5 5h-1M21.5 7h1M17.8 4.2l-.7-.7M20.9 7.3l.7.7M17.8 7.8l-.7.7M20.9 4.7l.7-.7"/></svg>'
   },
   {
+    id: 'faq', title: 'คำถามที่พบบ่อย', bg: '#fff7ed', fg: '#c2410c',
+    desc: 'คำตอบที่รวดเร็วสำหรับคำถามที่พบบ่อยที่สุดเกี่ยวกับ Doc-Scribe.ai',
+    arts: ['faq-general'],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+  },
+  {
     id: 'troubleshooting', title: 'การแก้ไขปัญหา', bg: '#fee2e2', fg: '#dc2626',
     desc: 'ค้นหาแนวทางแก้ไขปัญหาที่พบบ่อยและกลับมาใช้งานได้อย่างรวดเร็ว',
     arts: ['troubleshooting', 'data-security'],
@@ -167,8 +173,10 @@ window.ARTS = {
 
 'data-security': { 
     cat: 'troubleshooting', title: 'ความเป็นส่วนตัวและความปลอดภัยของข้อมูล', exc: 'Doc-Scribe.ai ปกป้องข้อมูลองค์กรและเอกสารของคุณอย่างไร', 
-    body: '<h2>คุณลักษณะด้านความปลอดภัยที่สำคัญ</h2><ul><li><strong>สภาพแวดล้อม AI ส่วนตัว</strong> —— ข้อมูลของคุณจะไม่ถูกส่งออกไปนอกองค์กร</li><li><strong>การควบคุมการเข้าถึงตามบทบาท</strong> —— ผู้ใช้จะเห็นเฉพาะฟีเจอร์และเอกสารที่ได้รับสิทธิ์</li><li><strong>การจัดเก็บข้อมูลแบบเข้ารหัส</strong> —— เอกสารจะถูกเข้ารหัสทั้งขณะจัดเก็บและขณะรับส่ง</li></ul>' 
-  }
+    body: '<h2>คุณลักษณะด้านความปลอดภัยที่สำคัญ</h2><ul><li><strong>สภาพแวดล้อม AI ส่วนตัว</strong> —— ข้อมูลของคุณจะไม่ถูกส่งออกไปนอกองค์กร</li><li><strong>การควบคุมการเข้าถึงตามบทบาท</strong> —— ผู้ใช้จะเห็นเฉพาะฟีเจอร์และเอกสารที่ได้รับสิทธิ์</li><li><strong>การจัดเก็บข้อมูลแบบเข้ารหัส</strong> —— เอกสารจะถูกเข้ารหัสทั้งขณะจัดเก็บและขณะรับส่ง</li></ul>'
+  },
+
+  'faq-general': { cat: 'faq', title: 'คำถามที่พบบ่อย', exc: 'คำตอบที่รวดเร็วสำหรับคำถามที่พบบ่อยที่สุดเกี่ยวกับ Doc-Scribe.ai', body: '<p>ค้นหาคำตอบที่รวดเร็วสำหรับคำถามที่พบบ่อยที่สุดเกี่ยวกับ Doc-Scribe.ai ด้านล่าง</p><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">Doc-Scribe.ai คืออะไร?<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">Doc-Scribe.ai คือแพลตฟอร์มอัจฉริยะเอกสารที่ขับเคลื่อนด้วย AI อัปโหลดเอกสารของคุณและโต้ตอบกับเอกสารโดยใช้ภาษาธรรมชาติ &mdash; แทนที่จะค้นหาด้วยตนเอง เพียงถามคำถามและรับคำตอบทันที</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">ข้อมูลของฉันปลอดภัยและเป็นส่วนตัวหรือไม่?<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">ใช่ Doc-Scribe.ai ทำงานในสภาพแวดล้อม AI ส่วนตัว &mdash; เอกสารของคุณจะไม่ออกจากองค์กรของคุณ ข้อมูลถูกเข้ารหัสทั้งขณะจัดเก็บ (AES-256) และขณะส่งผ่าน (TLS 1.3) ข้อมูลของคุณจะไม่ถูกนำไปใช้ในการฝึก AI</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">ฉันสามารถอัปโหลดไฟล์ประเภทใดได้บ้าง?<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">รูปแบบที่รองรับ: PDF, DOCX, DOC, TXT, RTF, XLSX, XLS, CSV, PPTX, PPT, PNG, JPG, JPEG, TIFF, MSG, EML, DWG และ DXF</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">การค้นหา AI ทำงานอย่างไร?<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">เลือกเอกสารและคลิก AI Search พิมพ์คำถามด้วยภาษาธรรมชาติ &mdash; เช่น "สรุปเอกสารนี้" หรือ "ยอดรวมใบแจ้งหนี้คือเท่าไร?" &mdash; และ AI จะตอบกลับอย่างถูกต้องทันที</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">มีโหมด AI อะไรบ้าง?<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">หกโหมด: การค้นหาทั่วไป (คำถามประจำวัน), Visualizer (แผนภูมิ &amp; ไดอะแกรม), นักวิเคราะห์ (วิเคราะห์เชิงลึก), ผู้ตรวจสอบ (ตรวจสอบข้อผิดพลาด), Transcript (วิเคราะห์การประชุม) และ Extractor (ส่งออกข้อมูลแบบมีโครงสร้าง)</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">My Box กับหมวดหมู่ต่างกันอย่างไร?<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">My Box คือพื้นที่ส่วนตัวของคุณ &mdash; มีเพียงคุณเท่านั้นที่เห็นไฟล์ที่เก็บไว้ที่นั่น หมวดหมู่คือโฟลเดอร์ที่แชร์กันระหว่างแผนก ที่สมาชิกทีมที่มีสิทธิ์เหมาะสมสามารถเข้าถึงได้</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">ฉันสามารถแชร์เอกสารกับผู้ใช้อื่นได้หรือไม่?<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">ได้ เปิดเอกสาร คลิกแชร์ เลือกผู้ใช้ และเลือกระดับสิทธิ์: สามารถดู (ดูและใช้ AI) หรือสามารถดาวน์โหลด (ดูและดาวน์โหลดไฟล์)</div></div></div><div class="ts-item"><div class="ts-q" onclick="toggleTs(this)">แพลตฟอร์มรองรับภาษาอะไรบ้าง?<svg class="ts-ch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="ts-a"><div class="ts-a-inner">Doc-Scribe.ai รองรับภาษาอังกฤษ ภาษามาเลย์ ภาษาจีน (ตัวย่อ) ภาษาไทย ภาษาฮินดี และภาษาญี่ปุ่น เปลี่ยนภาษาจากไอคอนโลกที่มุมบนขวา</div></div></div>' }
 };
 
 window.VIDEOS = [
@@ -177,6 +185,6 @@ window.VIDEOS = [
 ];
 
 window.PAPERS = [
-  { tag: 'White Paper', title: 'อนาคตของอัจฉริยะเอกสารในองค์กร', desc: 'การจัดการเอกสารที่ขับเคลื่อนด้วย AI กำลังเปลี่ยนรูปแบบการทำงานความรู้ได้อย่างไร', file: 'docs/Doc-Scribe_Security_Whitepaper.pdf' },
-  { tag: 'คู่มือทางเทคนิค', title: 'สถาปัตยกรรมและความปลอดภัยของ AI', desc: 'เจาะลึกสถาปัตยกรรม AI ส่วนตัวของ Doc-Scribe.ai และโมเดลความปลอดภัย', file: 'docs/Use-Cases-for-Vertical-Industries.pdf' }
+  { tag: 'White Paper', title: 'อนาคตของอัจฉริยะเอกสารในองค์กร', desc: 'การจัดการเอกสารที่ขับเคลื่อนด้วย AI กำลังเปลี่ยนรูปแบบการทำงานความรู้ได้อย่างไร', file: 'docs/Doc-Scribe_Security_Whitepaper_Jan2026_v2_Thai.pdf' },
+  { tag: 'คู่มือทางเทคนิค', title: 'สถาปัตยกรรมและความปลอดภัยของ AI', desc: 'เจาะลึกสถาปัตยกรรม AI ส่วนตัวของ Doc-Scribe.ai และโมเดลความปลอดภัย', file: 'docs/Use Cases for Vertical Industries_Thai.pdf' }
 ];
