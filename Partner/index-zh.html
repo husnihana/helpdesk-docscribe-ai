@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>合作伙伴帮助中心 | Doc-Scribe.ai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../index.css">
+</head>
+<body>
+  <nav>
+    <a href="#" class="nav-logo" onclick="showHome(); return false;">
+      <img src="../images/logo.png" alt="Doc-Scribe Logo">
+      <div class="nav-logo-text">
+        <div class="name">Doc-Scribe<span class="ai">.AI</span></div>
+        <div class="tagline">合作伙伴帮助中心</div>
+      </div>
+    </a>
+    <div class="portal-tabs">
+      <a href="../index-zh.html" class="portal-tab">用户</a>
+      <a href="../Admin/index-zh.html" class="portal-tab">管理员</a>
+      <a href="index-zh.html" class="portal-tab active">合作伙伴</a>
+    </div>
+    <div class="nav-search-wrap">
+      <svg class="nav-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" class="nav-search-input" placeholder="搜索合作伙伴指南..." oninput="handleNavSearch(this.value)">
+    </div>
+    <div class="nav-links">
+      <a href="#tutorials">Tutorials</a>
+    </div>
+    <a href="https://doc-scribe.ai" target="_blank" class="btn btn-primary">试用产品</a>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+      <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <div class="lang-selector">
+      <button class="btn btn-outline" id="langBtn" onclick="toggleLang()"><span id="currentLang">ZH</span></button>
+      <div class="lang-dropdown" id="langDropdown">
+        <a class='lang-opt' href='index.html'>English</a>
+        <a class='lang-opt' href='index-bm.html'>Bahasa Malaysia</a>
+        <a class='lang-opt active' href='index-zh.html'>中文 (简体)</a>
+        <a class='lang-opt' href='index-hi.html'>हिन्दी</a>
+        <a class='lang-opt' href='index-th.html'>ภาษาไทย</a>
+      </div>
+    </div>
+  </nav>
+  <div class="app-wrap">
+    <aside class="sidebar fade-up" id="sidebar"></aside>
+    <main>
+      <div id="readingProgress" style="height:3px;background:var(--cyan);position:fixed;top:var(--header-h);left:0;width:0;z-index:1001;transition:width 0.1s linear;box-shadow:0 0 10px rgba(0,255,157,0.5);"></div>
+      <div id="homeView" class="fade-up">
+        <section class="hero">
+          <div class="hero-bg"></div>
+          <h1>合作伙伴 <span>帮助中心</span></h1>
+          <p>Doc-Scribe.ai 合作伙伴资源与指南 —— 入职、集成、客户管理和支持。</p>
+          <div class="search-container">
+            <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" class="search-box" id="heroSearch" placeholder="搜索合作伙伴指南..." oninput="handleSearch(this.value)">
+            <div class="search-results" id="searchResults"></div>
+          </div>
+        </section>
+        <section class="container">
+          <h2 class="section-title">按主题浏览</h2>
+          <div class="cat-grid" id="catGrid"></div>
+        </section>
+
+        <!-- VIDEOS -->
+        <section class="container video-section" id="tutorials">
+          <h2 class="section-title">Video Tutorials</h2>
+          <div class="video-grid" id="videoGrid"></div>
+        </section>
+
+      </div>
+      <div id="articleView" class="article-view fade-up">
+        <div class="breadcrumb" id="breadcrumb"></div>
+        <header class="article-header"><h1 id="artTitle">文章标题</h1></header>
+        <div class="content-body" id="artBody"></div>
+        <div class="article-footer" id="artNav"></div>
+        <div class="support-cta">
+          <div class="s-cta-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <div class="s-cta-text"><h3>需要合作伙伴支持？</h3><p>联系您专属的 Doc-Scribe.ai 合作伙伴经理获取帮助。</p></div>
+          <a href="#" class="btn btn-primary">联系合作伙伴经理</a>
+        </div>
+      </div>
+      <footer>
+        <div class="footer-inner">
+          <div class="footer-top">
+            <div class="footer-brand">
+              <div class="nav-logo"><img src="../images/logo.png" alt="Doc-Scribe"><div class="nav-logo-text"><div class="name">Doc-Scribe<span class="ai">.AI</span></div></div></div>
+              <p>AI 驱动的文档智能平台，助力企业知识管理。</p>
+            </div>
+            <div class="footer-col"><h4>解决方案</h4><a href="#">功能</a><a href="#">安全</a><a href="#">定价</a><a href="#">企业</a></div>
+            <div class="footer-col"><h4>支持</h4><a href="#" onclick="showHome(); return false;">合作伙伴帮助</a><a href="#">API 文档</a><a href="#">系统状态</a><a href="#">联系我们</a></div>
+            <div class="footer-col"><h4>法律</h4><a href="#">隐私政策</a><a href="#">服务条款</a><a href="#">Cookie 政策</a><a href="#">安全</a></div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; 2026 Doc-Scribe<span>.ai</span> — 保留所有权利。</p>
+            <div>为高端企业用户精心打造。</div>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script src="../data-zh.js"></script>
+  <script src="data-zh.js"></script>
+  <script src="../main.js"></script>
+</body>
+</html>

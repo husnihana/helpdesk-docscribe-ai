@@ -111,6 +111,16 @@ nav {
 :root.dark .theme-toggle .sun { display: block; }
 :root.dark .theme-toggle .moon { display: none; }
 
+/* ── PORTAL TABS ── */
+.portal-tabs { display: flex; align-items: center; gap: 4px; margin-left: 8px; }
+.portal-tab {
+  padding: 5px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 600;
+  color: var(--text-dim); text-decoration: none; transition: all var(--t);
+  border: 1.5px solid transparent; white-space: nowrap; letter-spacing: 0.2px;
+}
+.portal-tab:hover { color: var(--title); background: var(--hover-bg); border-color: var(--border); }
+.portal-tab.active { color: var(--cyan); border-color: var(--cyan); background: var(--accent-base); }
+
 /* ── HERO ── */
 .hero { padding: 100px 48px; text-align: center; position: relative; background: var(--navy-mid); border-radius: var(--radius); margin-bottom: 80px; z-index: 100; }
 .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 15% 15%, var(--border) 0%, transparent 60%); opacity: 0.5; }

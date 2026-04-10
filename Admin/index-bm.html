@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pusat Bantuan Admin | Doc-Scribe.ai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../index.css">
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo" onclick="showHome(); return false;">
+      <img src="../images/logo.png" alt="Doc-Scribe Logo">
+      <div class="nav-logo-text">
+        <div class="name">Doc-Scribe<span class="ai">.AI</span></div>
+        <div class="tagline">Admin Help Centre</div>
+      </div>
+    </a>
+
+    <div class="portal-tabs">
+      <a href="../index-bm.html" class="portal-tab">User</a>
+      <a href="index-bm.html" class="portal-tab active">Admin</a>
+      <a href="../Partner/index-bm.html" class="portal-tab">Partner</a>
+    </div>
+
+    <div class="nav-search-wrap">
+      <svg class="nav-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" class="nav-search-input" placeholder="Cari panduan admin..." oninput="handleNavSearch(this.value)">
+    </div>
+
+    <div class="nav-links">
+      <a href="#tutorials">Tutorials</a>
+    </div>
+
+    <a href="https://doc-scribe.ai" target="_blank" class="btn btn-primary">Cuba Produk</a>
+
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+      <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+
+    <div class="lang-selector">
+      <button class="btn btn-outline" id="langBtn" onclick="toggleLang()">
+        <span id="currentLang">BM</span>
+      </button>
+      <div class="lang-dropdown" id="langDropdown">
+        <a class='lang-opt' href='index.html'>English</a>
+        <a class='lang-opt active' href='index-bm.html'>Bahasa Malaysia</a>
+        <a class='lang-opt' href='index-zh.html'>中文 (简体)</a>
+        <a class='lang-opt' href='index-hi.html'>हिन्दी</a>
+        <a class='lang-opt' href='index-th.html'>ภาษาไทย</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="app-wrap">
+    <aside class="sidebar fade-up" id="sidebar"></aside>
+    <main>
+      <div id="readingProgress" style="height:3px;background:var(--cyan);position:fixed;top:var(--header-h);left:0;width:0;z-index:1001;transition:width 0.1s linear;box-shadow:0 0 10px rgba(0,255,157,0.5);"></div>
+
+      <div id="homeView" class="fade-up">
+        <section class="hero">
+          <div class="hero-bg"></div>
+          <h1>Pusat Bantuan <span>Admin</span></h1>
+          <p>Panduan pentadbiran sistem untuk mengurus pengguna, kebenaran, kategori dan konfigurasi platform.</p>
+          <div class="search-container">
+            <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" class="search-box" id="heroSearch" placeholder="Cari panduan admin..." oninput="handleSearch(this.value)">
+            <div class="search-results" id="searchResults"></div>
+          </div>
+        </section>
+        <section class="container">
+          <h2 class="section-title">Semak Mengikut Topik</h2>
+          <div class="cat-grid" id="catGrid"></div>
+        </section>
+
+        <!-- VIDEOS -->
+        <section class="container video-section" id="tutorials">
+          <h2 class="section-title">Video Tutorials</h2>
+          <div class="video-grid" id="videoGrid"></div>
+        </section>
+
+      </div>
+
+      <div id="articleView" class="article-view fade-up">
+        <div class="breadcrumb" id="breadcrumb"></div>
+        <header class="article-header"><h1 id="artTitle">Tajuk Artikel</h1></header>
+        <div class="content-body" id="artBody"></div>
+        <div class="article-footer" id="artNav"></div>
+        <div class="support-cta">
+          <div class="s-cta-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="s-cta-text">
+            <h3>Perlukan sokongan admin?</h3>
+            <p>Hubungi pengurus akaun Doc-Scribe.ai anda untuk bantuan admin perusahaan.</p>
+          </div>
+          <a href="#" class="btn btn-primary">Hubungi Sokongan</a>
+        </div>
+      </div>
+
+      <footer>
+        <div class="footer-inner">
+          <div class="footer-top">
+            <div class="footer-brand">
+              <div class="nav-logo">
+                <img src="../images/logo.png" alt="Doc-Scribe">
+                <div class="nav-logo-text"><div class="name">Doc-Scribe<span class="ai">.AI</span></div></div>
+              </div>
+              <p>Kecerdasan dokumen berkuasa AI untuk pengurusan pengetahuan perusahaan.</p>
+            </div>
+            <div class="footer-col"><h4>Penyelesaian</h4><a href="#">Ciri</a><a href="#">Keselamatan</a><a href="#">Harga</a><a href="#">Perusahaan</a></div>
+            <div class="footer-col"><h4>Sokongan</h4><a href="#" onclick="showHome(); return false;">Bantuan Admin</a><a href="#">Dokumen API</a><a href="#">Status Sistem</a><a href="#">Hubungi</a></div>
+            <div class="footer-col"><h4>Undang-undang</h4><a href="#">Dasar Privasi</a><a href="#">Terma Perkhidmatan</a><a href="#">Dasar Kuki</a><a href="#">Keselamatan</a></div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; 2026 Doc-Scribe<span>.ai</span> — Hak cipta terpelihara.</p>
+            <div>Dibina dengan tepat untuk pengguna perusahaan premium.</div>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="../data-bm.js"></script>
+  <script src="data-bm.js"></script>
+  <script src="../main.js"></script>
+</body>
+</html>

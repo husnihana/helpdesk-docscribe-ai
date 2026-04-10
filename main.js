@@ -56,6 +56,8 @@ function renderStaticStrings() {
   if (navLinks.length >= 2) {
     navLinks[0].textContent = s.resources;
     navLinks[1].textContent = s.tutorials;
+  } else if (navLinks.length === 1) {
+    navLinks[0].textContent = s.tutorials;
   }
   const tryProduct = document.querySelector('.btn.btn-primary[href*="doc-scribe.ai"]');
   if (tryProduct) tryProduct.textContent = s.tryProduct;
@@ -68,11 +70,9 @@ function renderStaticStrings() {
   if (heroInput) heroInput.placeholder = s.searchPlaceholder;
 
   const sectionTitles = document.querySelectorAll('.section-title');
-  if (sectionTitles.length >= 3) {
-    sectionTitles[0].textContent = s.browseByTopic;
-    sectionTitles[1].textContent = s.videoTutorials;
-    sectionTitles[2].textContent = s.resourcesAndPapers;
-  }
+  if (sectionTitles[0]) sectionTitles[0].textContent = s.browseByTopic;
+  if (sectionTitles[1]) sectionTitles[1].textContent = s.videoTutorials;
+  if (sectionTitles[2]) sectionTitles[2].textContent = s.resourcesAndPapers;
 
   const sCtaH3 = document.querySelector('.support-cta h3');
   if (sCtaH3) sCtaH3.textContent = s.stillNeedHelp;
