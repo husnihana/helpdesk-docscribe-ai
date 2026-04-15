@@ -1,0 +1,11 @@
+- [x] Update Partner English FAQ/category structure:
+  - [x] Keep Partner FAQ fully partner-specific (remove billing wording, split by requested categories)
+  - [x] Create/confirm Partner categories in Tips & FAQ area: Tenants, Partner
+  - [x] Ensure sidebar article labels are clear and concise
+- [x] Validate impacted Partner English files:
+  - [x] Partner/data-en.js
+  - [ ] (if needed) Partner/index.html
+- [ ] Smoke-test Partner English flow:
+  - [ ] Category rendering in sidebar/home
+  - [ ] FAQ navigation and article loading
+- [ ] Summarize what was fixed and what may be missing for next language rollout
