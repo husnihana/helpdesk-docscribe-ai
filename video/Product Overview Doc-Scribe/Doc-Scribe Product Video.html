@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Doc-Scribe — Product Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body, #root { width: 100%; height: 100%; overflow: hidden; background: #060810; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="animations.jsx"></script>
+<script type="text/babel">
+// ─── Palette ───────────────────────────────────────────────────────────────
+const C = {
+  bg:     '#060810',
+  bg2:    '#0d1120',
+  blue:   'oklch(68% 0.19 248)',
+  purple: 'oklch(66% 0.17 290)',
+  teal:   'oklch(70% 0.15 195)',
+  white:  '#eef2ff',
+  dim:    'rgba(238,242,255,0.45)',
+  grid:   'rgba(100,130,255,0.05)',
+};
+
+const FONT = '"DM Sans", system-ui, sans-serif';
+const MONO = '"DM Mono", monospace';
+
+// ─── Helpers ───────────────────────────────────────────────────────────────
+function lerp(a,b,t){ return a+(b-a)*t; }
+function ease(t){ return t<0.5?2*t*t:-1+(4-2*t)*t; }
+function fadeIn(lt, dur=0.5){ return clamp(lt/dur,0,1); }
+function fadeOut(lt, total, dur=0.5){ return 1-clamp((lt-(total-dur))/dur,0,1); }
+function presence(lt, total, inD=0.5, outD=0.4){ return Math.min(fadeIn(lt,inD), fadeOut(lt,total,outD)); }
+
+// ─── Shared: Grid BG ──────────────────────────────────────────────────────
+function GridBG({ opacity=1, color=C.grid }){
+  return (
+    <div style={{position:'absolute',inset:0,opacity,
+      backgroundImage:`linear-gradient(${color} 1px,transparent 1px),linear-gradient(90deg,${color} 1px,transparent 1px)`,
+      backgroundSize:'60px 60px'}} />
+  );
+}
+
+// ─── Shared: Glow Orb ─────────────────────────────────────────────────────
+function GlowOrb({ x=640, y=360, r=400, color='oklch(60% 0.2 248)', opacity=0.18 }){
+  return (
+    <div style={{
+      position:'absolute',
+      left:x-r, top:y-r, width:r*2, height:r*2,
+      borderRadius:'50%',
+      background:`radial-gradient(circle, ${color} 0%, transparent 70%)`,
+      opacity, pointerEvents:'none'
+    }}/>
+  );
+}
+
+// ─── Scene 1: Opening Hook ─────────────────────────────────────────────────
+// 0 – 10s: "Your meetings are full of gold. It's buried."
+function Scene1(){
+  const t = useTime();
+  const lt = t; // local, scene starts at 0
+
+  const tagOp = clamp((lt-0.3)/0.8,0,1) * (1 - clamp((lt-7)/0.8,0,1));
+  const heroOp = clamp((lt-1.5)/1,0,1) * (1 - clamp((lt-7.5)/0.7,0,1));
+  const sub1Op = clamp((lt-3)/0.8,0,1) * (1 - clamp((lt-7.5)/0.7,0,1));
+  const sub2Op = clamp((lt-4.5)/0.8,0,1) * (1 - clamp((lt-7.5)/0.7,0,1));
+
+  const heroY = lerp(30, 0, Easing.easeOutCubic(clamp((lt-1.5)/1,0,1)));
+
+  return (
+    <g>
+      <GridBG opacity={clamp(lt/2,0,1)*0.6}/>
+      <GlowOrb x={640} y={400} r={520} color='oklch(55% 0.22 248)' opacity={0.15}/>
+      <GlowOrb x={200} y={200} r={300} color='oklch(55% 0.18 285)' opacity={0.10}/>
+
+      {/* Tag */}
+      <div style={{
+        position:'absolute', top:240, left:0, right:0, textAlign:'center',
+        opacity:tagOp, fontFamily:MONO, fontSize:13, color:C.blue, letterSpacing:'0.22em', textTransform:'uppercase'
+      }}>Doc-Scribe presents</div>
+
+      {/* Hero */}
+      <div style={{
+        position:'absolute', top:280, left:0, right:0, textAlign:'center',
+        opacity:heroOp, transform:`translateY(${heroY}px)`
+      }}>
+        <div style={{fontFamily:FONT,fontSize:72,fontWeight:700,color:C.white,lineHeight:1.1,letterSpacing:'-0.02em'}}>
+          Your meetings are<br/>full of <span style={{color:C.blue}}>gold.</span>
+        </div>
+      </div>
+
+      {/* Subs */}
+      <div style={{
+        position:'absolute', top:440, left:0, right:0, textAlign:'center',
+        opacity:sub1Op, fontFamily:FONT, fontSize:28, fontWeight:300, color:C.dim
+      }}>It's buried in notes no one reads.</div>
+      <div style={{
+        position:'absolute', top:490, left:0, right:0, textAlign:'center',
+        opacity:sub2Op, fontFamily:FONT, fontSize:28, fontWeight:300, color:C.dim
+      }}>Transcripts no one formats. Action items no one tracks.</div>
+    </g>
+  );
+}
+
+// ─── Scene 2: The Problem ──────────────────────────────────────────────────
+// 10 – 24s
+function Scene2(){
+  const t = useTime();
+  const lt = t - 10;
+  if(lt < 0) return null;
+
+  const bg = clamp(lt/1.2,0,1);
+  const end = 14;
+
+  // Floating chaotic notes
+  const notes = [
+    { x:150, y:180, rot:-8,  text:'@ john re: Q2\nfollow up??', delay:0.3 },
+    { x:420, y:120, rot:3,   text:'action items\n(TBD)', delay:0.6 },
+    { x:680, y:200, rot:-4,  text:'see slack thread\n#general', delay:0.4 },
+    { x:900, y:140, rot:6,   text:'budget approved?\ncheck w/ finance', delay:0.8 },
+    { x:1050,y:260, rot:-7,  text:'roadmap v3\n(old version?)', delay:0.5 },
+    { x:200, y:380, rot:5,   text:'URGENT – client\ncall notes lost', delay:0.9 },
+    { x:500, y:340, rot:-5,  text:'meeting 10/4\nno summary sent', delay:0.7 },
+    { x:760, y:390, rot:4,   text:'30min recording\nnever listened to', delay:0.3 },
+    { x:980, y:370, rot:-3,  text:'who was supposed\nto write this up?', delay:1.0 },
+    { x:320, y:520, rot:7,   text:'TODO: transcript\n(3 weeks ago)', delay:0.6 },
+    { x:600, y:500, rot:-6,  text:'lost in email\n😬', delay:0.4 },
+    { x:850, y:500, rot:3,   text:'Notes doc:\n[empty]', delay:0.8 },
+  ];
+
+  const titleOp = clamp((lt-1)/0.8,0,1) * (1 - clamp((lt-10)/0.8,0,1));
+  const titleY = lerp(20,0, Easing.easeOutCubic(clamp((lt-1)/0.8,0,1)));
+
+  return (
+    <g>
+      <GridBG opacity={0.5}/>
+      <GlowOrb x={640} y={360} r={400} color='oklch(50% 0.15 10)' opacity={0.12}/>
+
+      {notes.map((n,i) => {
+        const appear = clamp((lt-n.delay)/0.5,0,1);
+        const drift = lt * (i%2===0?1:-1) * 0.4;
+        const wiggle = Math.sin(lt*0.8 + i*1.2) * 3;
+        return (
+          <div key={i} style={{
+            position:'absolute', left:n.x, top:n.y+drift*0.3,
+            transform:`rotate(${n.rot+wiggle}deg) scale(${appear})`,
+            opacity: appear * 0.85,
+            background:'rgba(255,255,255,0.06)',
+            border:'1px solid rgba(255,255,255,0.1)',
+            borderRadius:8, padding:'10px 14px',
+            fontFamily:MONO, fontSize:12.5, color:'rgba(238,242,255,0.7)',
+            lineHeight:1.5, whiteSpace:'pre',
+            backdropFilter:'blur(4px)',
+            transformOrigin:'center',
+          }}>{n.text}</div>
+        );
+      })}
+
+      <div style={{
+        position:'absolute', bottom:80, left:0, right:0, textAlign:'center',
+        opacity:titleOp, transform:`translateY(${titleY}px)`
+      }}>
+        <div style={{fontFamily:FONT, fontSize:48, fontWeight:700, color:C.white, letterSpacing:'-0.02em'}}>
+          Documentation is <span style={{color:'oklch(65% 0.2 15)'}}>broken.</span>
+        </div>
+        <div style={{fontFamily:FONT, fontSize:22, fontWeight:300, color:C.dim, marginTop:12}}>
+          Hours of conversation. Zero usable output.
+        </div>
+      </div>
+    </g>
+  );
+}
+
+// ─── Scene 3: Solution Reveal ──────────────────────────────────────────────
+// 24 – 38s
+function Scene3(){
+  const t = useTime();
+  const lt = t - 24;
+  if(lt < 0) return null;
+
+  const flashOp = Math.max(0, 1 - lt*3);
+  const logoOp = clamp((lt-0.6)/1.2,0,1) * (1 - clamp((lt-11.5)/0.8,0,1));
+  const tagOp  = clamp((lt-1.8)/1,0,1)   * (1 - clamp((lt-11.5)/0.8,0,1));
+  const desc1Op = clamp((lt-3)/0.8,0,1)  * (1 - clamp((lt-11.5)/0.7,0,1));
+  const desc2Op = clamp((lt-4.2)/0.8,0,1)* (1 - clamp((lt-11.5)/0.7,0,1));
+
+  const logoScale = lerp(0.7, 1, Easing.easeOutBack(clamp((lt-0.6)/1.2,0,1)));
+
+  // Animated underline
+  const lineW = clamp((lt-2.2)/0.8,0,1) * 340;
+
+  return (
+    <g>
+      {/* Flash */}
+      <div style={{position:'absolute',inset:0,background:'white',opacity:flashOp,pointerEvents:'none'}}/>
+
+      <GridBG opacity={0.6}/>
+      <GlowOrb x={640} y={340} r={550} color='oklch(60% 0.22 248)' opacity={0.2}/>
+      <GlowOrb x={400} y={200} r={300} color='oklch(60% 0.18 290)' opacity={0.12}/>
+      <GlowOrb x={900} y={500} r={280} color='oklch(65% 0.16 195)' opacity={0.10}/>
+
+      {/* Logo */}
+      <div style={{
+        position:'absolute', top:200, left:0, right:0, textAlign:'center',
+        opacity:logoOp, transform:`scale(${logoScale})`, transformOrigin:'center top'
+      }}>
+        <div style={{display:'inline-flex', alignItems:'center', gap:16}}>
+          {/* Icon mark */}
+          <svg width="68" height="68" viewBox="0 0 68 68">
+            <defs>
+              <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="oklch(68% 0.19 248)"/>
+                <stop offset="100%" stopColor="oklch(66% 0.17 290)"/>
+              </linearGradient>
+            </defs>
+            <rect width="68" height="68" rx="16" fill="url(#lg1)" opacity="0.15"/>
+            <rect width="68" height="68" rx="16" fill="none" stroke="url(#lg1)" strokeWidth="1.5"/>
+            <path d="M18 22h32M18 30h24M18 38h28M18 46h18" stroke="url(#lg1)" strokeWidth="2.5" strokeLinecap="round"/>
+            <circle cx="52" cy="46" r="8" fill="url(#lg1)" opacity="0.9"/>
+            <path d="M49 46l2 2 4-4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+          </svg>
+          <span style={{fontFamily:FONT, fontSize:72, fontWeight:700, color:C.white, letterSpacing:'-0.03em'}}>
+            Doc<span style={{background:'linear-gradient(135deg, oklch(68% 0.19 248), oklch(66% 0.17 290))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>Scribe</span>
+          </span>
+        </div>
+
+        {/* Animated underline */}
+        <div style={{display:'flex', justifyContent:'center', marginTop:8}}>
+          <div style={{height:2, width:lineW, background:'linear-gradient(90deg, oklch(68% 0.19 248), oklch(66% 0.17 290))', borderRadius:2, transition:'width 0ms'}}/>
+        </div>
+      </div>
+
+      <div style={{
+        position:'absolute', top:360, left:0, right:0, textAlign:'center',
+        opacity:tagOp, fontFamily:FONT, fontSize:32, fontWeight:500, color:C.dim, letterSpacing:'-0.01em'
+      }}>AI-powered meeting intelligence</div>
+
+      <div style={{
+        position:'absolute', top:430, left:0, right:0, textAlign:'center',
+        opacity:desc1Op, fontFamily:FONT, fontSize:22, fontWeight:300, color:C.dim
+      }}>Record. Transcribe. Summarize. Act.</div>
+
+      <div style={{
+        position:'absolute', top:485, left:0, right:0, textAlign:'center',
+        opacity:desc2Op, fontFamily:FONT, fontSize:22, fontWeight:300, color:C.dim
+      }}>In seconds — not hours.</div>
+    </g>
+  );
+}
+
+// ─── Scene 4: Feature — Record & Transcribe ───────────────────────────────
+// 38 – 54s
+function Scene4(){
+  const t = useTime();
+  const lt = t - 38;
+  if(lt < 0) return null;
+
+  const panelOp = clamp((lt-0.3)/0.8,0,1) * (1-clamp((lt-13)/0.8,0,1));
+  const titleOp = clamp((lt-0.8)/0.7,0,1) * (1-clamp((lt-13)/0.7,0,1));
+
+  // Waveform bars
+  const barCount = 42;
+  const bars = Array.from({length:barCount}, (_,i) => {
+    const freq = 0.3 + (i%7)*0.15;
+    const h = 16 + Math.abs(Math.sin(lt*freq*3.5 + i*0.6)) * 52 + Math.abs(Math.sin(lt*1.2+i*0.3))*20;
+    return h;
+  });
+
+  // Transcript lines appearing
+  const lines = [
+    { text: "Sarah:", bold:true, color:C.blue, t:1.5 },
+    { text: "Let's align on the Q3 roadmap priorities before we", bold:false, t:1.8 },
+    { text: "finalize the sprint. The main concern is capacity.", bold:false, t:2.2 },
+    { text: "Mark:", bold:true, color:'oklch(70% 0.15 195)', t:3.2 },
+    { text: "Agreed. Engineering is stretched but we can ship the", bold:false, t:3.5 },
+    { text: "core auth module if we descope the dashboard redesign.", bold:false, t:3.9 },
+    { text: "Sarah:", bold:true, color:C.blue, t:5.0 },
+    { text: "That works. Let's make the dashboard a Phase 2 item.", bold:false, t:5.3 },
+    { text: "Action: Mark to update the sprint board by EOD.", bold:false, color:'rgba(255,210,80,0.9)', t:6.2 },
+    { text: "James:", bold:true, color:C.purple, t:7.8 },
+    { text: "Should we loop in design for the auth flow?", bold:false, t:8.1 },
+    { text: "Action: Sarah to schedule design review — Friday.", bold:false, color:'rgba(255,210,80,0.9)', t:9.0 },
+  ];
+
+  const recPulse = 0.7 + 0.3*Math.sin(lt*4);
+
+  return (
+    <g>
+      <GridBG opacity={0.5}/>
+      <GlowOrb x={960} y={360} r={420} color='oklch(60% 0.2 248)' opacity={0.13}/>
+
+      {/* Left: title */}
+      <div style={{
+        position:'absolute', left:64, top:120, width:380, opacity:titleOp
+      }}>
+        <div style={{fontFamily:MONO, fontSize:12, color:C.blue, letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:16}}>Feature 01</div>
+        <div style={{fontFamily:FONT, fontSize:48, fontWeight:700, color:C.white, lineHeight:1.1, letterSpacing:'-0.02em'}}>
+          Instant<br/><span style={{color:C.blue}}>Transcription</span>
+        </div>
+        <div style={{fontFamily:FONT, fontSize:19, fontWeight:300, color:C.dim, marginTop:20, lineHeight:1.6}}>
+          Every word captured.<br/>Every speaker identified.<br/>Real-time, zero effort.
+        </div>
+
+        {/* Live badge */}
+        <div style={{
+          display:'inline-flex', alignItems:'center', gap:8, marginTop:32,
+          background:'rgba(255,60,60,0.12)', border:'1px solid rgba(255,60,60,0.3)',
+          borderRadius:20, padding:'6px 14px'
+        }}>
+          <div style={{width:8,height:8,borderRadius:'50%',background:'#ff4444',opacity:recPulse}}/>
+          <span style={{fontFamily:MONO, fontSize:13, color:'rgba(255,100,100,0.9)', letterSpacing:'0.1em'}}>LIVE REC</span>
+        </div>
+
+        {/* Waveform */}
+        <div style={{
+          display:'flex', alignItems:'center', gap:2.5, marginTop:28, height:80
+        }}>
+          {bars.slice(0,22).map((h,i)=>(
+            <div key={i} style={{
+              width:6, height:h, borderRadius:3,
+              background:`linear-gradient(to top, oklch(68% 0.19 248), oklch(72% 0.14 290))`,
+              opacity: 0.7 + 0.3*(h/80),
+            }}/>
+          ))}
+        </div>
+      </div>
+
+      {/* Right: transcript panel */}
+      <div style={{
+        position:'absolute', right:64, top:80, width:680, height:560,
+        opacity:panelOp,
+        background:'rgba(255,255,255,0.03)',
+        border:'1px solid rgba(255,255,255,0.08)',
+        borderRadius:16,
+        overflow:'hidden',
+        backdropFilter:'blur(8px)',
+      }}>
+        {/* Panel header */}
+        <div style={{
+          display:'flex', alignItems:'center', gap:8, padding:'14px 20px',
+          borderBottom:'1px solid rgba(255,255,255,0.06)',
+          background:'rgba(255,255,255,0.02)'
+        }}>
+          <div style={{width:10,height:10,borderRadius:'50%',background:'#ff5f56'}}/>
+          <div style={{width:10,height:10,borderRadius:'50%',background:'#febc2e'}}/>
+          <div style={{width:10,height:10,borderRadius:'50%',background:'#27c840'}}/>
+          <div style={{flex:1, textAlign:'center', fontFamily:MONO, fontSize:12, color:C.dim}}>transcript.docscribe.ai</div>
+        </div>
+        {/* Transcript content */}
+        <div style={{padding:'20px 24px', display:'flex', flexDirection:'column', gap:6}}>
+          {lines.map((line,i)=>{
+            const op = clamp((lt-line.t)/0.4,0,1);
+            return (
+              <div key={i} style={{
+                opacity:op,
+                fontFamily: line.bold ? MONO : FONT,
+                fontSize: line.bold ? 13 : 16,
+                fontWeight: line.bold ? 500 : 400,
+                color: line.color || C.white,
+                lineHeight: 1.6,
+                paddingLeft: line.bold ? 0 : 16,
+                letterSpacing: line.bold ? '0.05em' : 0,
+              }}>{line.text}</div>
+            );
+          })}
+          {/* Cursor */}
+          <div style={{
+            width:2, height:18, background:C.blue,
+            opacity: Math.sin(lt*3)>0?1:0, marginTop:4,
+            marginLeft:16
+          }}/>
+        </div>
+      </div>
+    </g>
+  );
+}
+
+// ─── Scene 5: Feature — AI Summary ────────────────────────────────────────
+// 54 – 68s
+function Scene5(){
+  const t = useTime();
+  const lt = t - 54;
+  if(lt < 0) return null;
+
+  const titleOp = clamp((lt-0.4)/0.8,0,1) * (1-clamp((lt-11.5)/0.7,0,1));
+
+  const cards = [
+    {
+      icon:'📋', label:'Summary', color:C.blue,
+      lines:['Q3 roadmap aligned.','Dashboard → Phase 2.','Auth module priority confirmed.'],
+      t:1.0
+    },
+    {
+      icon:'✅', label:'Action Items', color:'oklch(70% 0.18 150)',
+      lines:['Mark: Update sprint board — EOD','Sarah: Schedule design review — Fri','James: Share capacity report — Mon'],
+      t:2.8
+    },
+    {
+      icon:'👥', label:'Attendees', color:C.purple,
+      lines:['Sarah Kim (PM)','Mark Torres (Eng Lead)','James Park (Design)'],
+      t:4.4
+    },
+    {
+      icon:'🔗', label:'Next Steps', color:C.teal,
+      lines:['Sprint planning: Thu 2pm','Design handoff: Fri 10am','Phase 2 scoping: +2 weeks'],
+      t:6.0
+    },
+  ];
+
+  return (
+    <g>
+      <GridBG opacity={0.5}/>
+      <GlowOrb x={640} y={360} r={500} color='oklch(60% 0.18 290)' opacity={0.14}/>
+
+      <div style={{position:'absolute', left:64, top:120, opacity:titleOp}}>
+        <div style={{fontFamily:MONO, fontSize:12, color:C.purple, letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:16}}>Feature 02</div>
+        <div style={{fontFamily:FONT, fontSize:48, fontWeight:700, color:C.white, lineHeight:1.1, letterSpacing:'-0.02em'}}>
+          Instant<br/><span style={{color:C.purple}}>AI Summary</span>
+        </div>
+        <div style={{fontFamily:FONT, fontSize:19, fontWeight:300, color:C.dim, marginTop:20, lineHeight:1.7}}>
+          One click turns your meeting<br/>into a structured brief —<br/>automatically shared with your team.
+        </div>
+      </div>
+
+      {/* Cards grid */}
+      <div style={{
+        position:'absolute', right:60, top:90,
+        display:'grid', gridTemplateColumns:'1fr 1fr', gap:16, width:700
+      }}>
+        {cards.map((card,i)=>{
+          const op = clamp((lt-card.t)/0.6,0,1) * (1-clamp((lt-12)/0.6,0,1));
+          const scale = lerp(0.88,1,Easing.easeOutBack(clamp((lt-card.t)/0.6,0,1)));
+          return (
+            <div key={i} style={{
+              opacity:op, transform:`scale(${scale})`,
+              background:'rgba(255,255,255,0.04)',
+              border:`1px solid ${card.color}33`,
+              borderRadius:14, padding:'20px 22px',
+              backdropFilter:'blur(8px)',
+            }}>
+              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:14}}>
+                <span style={{fontSize:22}}>{card.icon}</span>
+                <span style={{fontFamily:MONO, fontSize:12, color:card.color, letterSpacing:'0.12em', textTransform:'uppercase'}}>{card.label}</span>
+              </div>
+              {card.lines.map((l,j)=>(
+                <div key={j} style={{
+                  fontFamily:FONT, fontSize:14.5, color:'rgba(238,242,255,0.75)',
+                  lineHeight:1.7, paddingLeft:4,
+                  borderLeft:`2px solid ${card.color}55`, marginBottom:4, paddingLeft:10
+                }}>{l}</div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+    </g>
+  );
+}
+
+// ─── Scene 6: Integrations / Share ────────────────────────────────────────
+// 68 – 80s
+function Scene6(){
+  const t = useTime();
+  const lt = t - 68;
+  if(lt < 0) return null;
+
+  const titleOp = clamp((lt-0.4)/0.8,0,1) * (1-clamp((lt-10)/0.7,0,1));
+
+  const integrations = [
+    { name:'Slack',    color:'#4a154b', icon:'S', x:220, y:270, t:1.0 },
+    { name:'Notion',   color:'#1a1a1a', icon:'N', x:460, y:200, t:1.5 },
+    { name:'Jira',     color:'#0052cc', icon:'J', x:700, y:270, t:1.0 },
+    { name:'Google',   color:'#ea4335', icon:'G', x:940, y:200, t:1.8 },
+    { name:'Teams',    color:'#6264a7', icon:'T', x:1060,y:330, t:1.3 },
+    { name:'Zoom',     color:'#2d8cff', icon:'Z', x:150, y:390, t:2.0 },
+    { name:'Email',    color:'oklch(68% 0.19 248)', icon:'@', x:340, y:420, t:1.7 },
+    { name:'Calendar', color:'oklch(66% 0.15 195)', icon:'◷', x:820, y:380, t:2.2 },
+  ];
+
+  // Center DocScribe icon
+  const centerOp = clamp((lt-0.2)/0.6,0,1) * (1-clamp((lt-10)/0.7,0,1));
+
+  return (
+    <g>
+      <GridBG opacity={0.5}/>
+      <GlowOrb x={640} y={360} r={520} color='oklch(62% 0.18 195)' opacity={0.14}/>
+
+      <div style={{position:'absolute', top:60, left:0, right:0, textAlign:'center', opacity:titleOp}}>
+        <div style={{fontFamily:MONO, fontSize:12, color:C.teal, letterSpacing:'0.2em', textTransform:'uppercase', marginBottom:16}}>Feature 03</div>
+        <div style={{fontFamily:FONT, fontSize:52, fontWeight:700, color:C.white, letterSpacing:'-0.02em'}}>
+          Works Where You <span style={{color:C.teal}}>Already Work</span>
+        </div>
+        <div style={{fontFamily:FONT, fontSize:21, fontWeight:300, color:C.dim, marginTop:14}}>
+          Push summaries to your stack in one click
+        </div>
+      </div>
+
+      {/* Center hub */}
+      <div style={{
+        position:'absolute', left:640-44, top:310,
+        width:88, height:88, borderRadius:22,
+        background:'linear-gradient(135deg, oklch(68% 0.19 248), oklch(66% 0.17 290))',
+        opacity:centerOp,
+        display:'flex', alignItems:'center', justifyContent:'center',
+        boxShadow:'0 0 40px oklch(68% 0.19 248 / 0.4)',
+      }}>
+        <svg width="44" height="44" viewBox="0 0 68 68">
+          <path d="M18 22h32M18 30h24M18 38h28M18 46h18" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+          <circle cx="52" cy="46" r="10" fill="white" opacity="0.2"/>
+          <path d="M49 46l2 2 4-4" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </svg>
+      </div>
+
+      {/* Integration nodes */}
+      {integrations.map((item,i)=>{
+        const op = clamp((lt-item.t)/0.5,0,1) * (1-clamp((lt-10)/0.6,0,1));
+        const scale = lerp(0,1,Easing.easeOutBack(clamp((lt-item.t)/0.5,0,1)));
+        // Line from center
+        const cx=640, cy=354;
+        const lop = clamp((lt-item.t-0.1)/0.4,0,1) * (1-clamp((lt-10)/0.6,0,1));
+        return (
+          <React.Fragment key={i}>
+            <svg style={{position:'absolute',inset:0,overflow:'visible',pointerEvents:'none'}} width="1280" height="720">
+              <line x1={cx} y1={cy} x2={item.x} y2={item.y}
+                stroke={item.color} strokeWidth="1.2" opacity={lop*0.4}
+                strokeDasharray="4 4"
+              />
+            </svg>
+            <div style={{
+              position:'absolute', left:item.x-28, top:item.y-28,
+              width:56, height:56, borderRadius:14,
+              background:`${item.color}22`,
+              border:`1.5px solid ${item.color}55`,
+              display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
+              opacity:op, transform:`scale(${scale})`,
+              backdropFilter:'blur(6px)',
+            }}>
+              <span style={{fontFamily:FONT, fontSize:20, fontWeight:700, color:'white'}}>{item.icon}</span>
+              <span style={{fontFamily:MONO, fontSize:9, color:'rgba(255,255,255,0.5)', marginTop:2, letterSpacing:'0.05em'}}>{item.name}</span>
+            </div>
+          </React.Fragment>
+        );
+      })}
+    </g>
+  );
+}
+
+// ─── Scene 7: Stats ────────────────────────────────────────────────────────
+// 80 – 90s
+function Scene7(){
+  const t = useTime();
+  const lt = t - 80;
+  if(lt < 0) return null;
+
+  const titleOp = clamp((lt-0.5)/0.8,0,1);
+
+  const stats = [
+    { num:'10×', label:'faster documentation', color:C.blue, t:1.2 },
+    { num:'98%', label:'transcription accuracy', color:C.purple, t:2.2 },
+    { num:'4hrs', label:'saved per team per week', color:C.teal, t:3.2 },
+    { num:'0', label:'missed action items', color:'oklch(70% 0.18 150)', t:4.2 },
+  ];
+
+  return (
+    <g>
+      <GridBG opacity={0.6}/>
+      <GlowOrb x={640} y={360} r={600} color='oklch(60% 0.2 248)' opacity={0.18}/>
+      <GlowOrb x={200} y={200} r={300} color='oklch(58% 0.16 290)' opacity={0.12}/>
+
+      <div style={{position:'absolute',top:100,left:0,right:0,textAlign:'center',opacity:titleOp}}>
+        <div style={{fontFamily:FONT, fontSize:52, fontWeight:700, color:C.white, letterSpacing:'-0.02em', lineHeight:1.1}}>
+          Teams that use <span style={{background:'linear-gradient(135deg,oklch(68% 0.19 248),oklch(66% 0.17 290))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>DocScribe</span>
+        </div>
+        <div style={{fontFamily:FONT, fontSize:22, fontWeight:300, color:C.dim, marginTop:12}}>don't just save time — they make better decisions.</div>
+      </div>
+
+      <div style={{
+        position:'absolute', bottom:120, left:0, right:0,
+        display:'flex', justifyContent:'center', gap:32, padding:'0 80px'
+      }}>
+        {stats.map((s,i)=>{
+          const op = clamp((lt-s.t)/0.6,0,1);
+          const scale = lerp(0.7,1,Easing.easeOutBack(clamp((lt-s.t)/0.6,0,1)));
+          return (
+            <div key={i} style={{
+              opacity:op, transform:`scale(${scale})`,
+              textAlign:'center', flex:1,
+              background:'rgba(255,255,255,0.03)',
+              border:`1px solid ${s.color}44`,
+              borderRadius:16, padding:'28px 20px',
+              backdropFilter:'blur(8px)',
+            }}>
+              <div style={{fontFamily:FONT, fontSize:64, fontWeight:700, color:s.color, lineHeight:1, letterSpacing:'-0.03em'}}>{s.num}</div>
+              <div style={{fontFamily:FONT, fontSize:16, fontWeight:400, color:C.dim, marginTop:10, lineHeight:1.4}}>{s.label}</div>
+            </div>
+          );
+        })}
+      </div>
+    </g>
+  );
+}
+
+// ─── Scene 8: CTA ─────────────────────────────────────────────────────────
+// 90 – 100s
+function Scene8(){
+  const t = useTime();
+  const lt = t - 90;
+  if(lt < 0) return null;
+
+  const op = clamp(lt/1.2,0,1);
+  const pulse = 0.85 + 0.15*Math.sin(lt*2.5);
+  const bgOp = clamp(lt/0.5,0,1);
+
+  return (
+    <g>
+      {/* Full gradient bg */}
+      <div style={{
+        position:'absolute',inset:0, opacity:bgOp,
+        background:'radial-gradient(ellipse at 50% 40%, oklch(22% 0.12 248) 0%, oklch(6% 0.04 248) 70%)'
+      }}/>
+      <GridBG opacity={0.5}/>
+      <GlowOrb x={640} y={300} r={600} color='oklch(60% 0.22 248)' opacity={0.22*pulse}/>
+
+      <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',opacity:op}}>
+        {/* Logo mark */}
+        <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:32}}>
+          <svg width="60" height="60" viewBox="0 0 68 68">
+            <defs>
+              <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="oklch(68% 0.19 248)"/>
+                <stop offset="100%" stopColor="oklch(66% 0.17 290)"/>
+              </linearGradient>
+            </defs>
+            <rect width="68" height="68" rx="16" fill="url(#lg2)" opacity="0.2"/>
+            <rect width="68" height="68" rx="16" fill="none" stroke="url(#lg2)" strokeWidth="1.5"/>
+            <path d="M18 22h32M18 30h24M18 38h28M18 46h18" stroke="url(#lg2)" strokeWidth="2.5" strokeLinecap="round"/>
+            <circle cx="52" cy="46" r="8" fill="url(#lg2)" opacity="0.9"/>
+            <path d="M49 46l2 2 4-4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+          </svg>
+          <span style={{fontFamily:FONT,fontSize:60,fontWeight:700,color:C.white,letterSpacing:'-0.03em'}}>
+            Doc<span style={{background:'linear-gradient(135deg,oklch(68% 0.19 248),oklch(66% 0.17 290))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Scribe</span>
+          </span>
+        </div>
+
+        <div style={{fontFamily:FONT,fontSize:38,fontWeight:300,color:C.white,textAlign:'center',marginBottom:12,letterSpacing:'-0.01em'}}>
+          Stop losing your best ideas.
+        </div>
+        <div style={{fontFamily:FONT,fontSize:22,fontWeight:300,color:C.dim,textAlign:'center',marginBottom:48}}>
+          Start every meeting knowing nothing will be forgotten.
+        </div>
+
+        {/* CTA button */}
+        <div style={{
+          padding:'18px 52px', borderRadius:50,
+          background:'linear-gradient(135deg,oklch(68% 0.19 248),oklch(66% 0.17 290))',
+          fontFamily:FONT, fontSize:20, fontWeight:600, color:'white',
+          letterSpacing:'-0.01em', cursor:'pointer',
+          boxShadow:`0 0 ${40*pulse}px oklch(68% 0.19 248 / 0.5)`,
+          transform:`scale(${pulse})`,
+        }}>
+          Start for free →
+        </div>
+
+        <div style={{fontFamily:MONO,fontSize:13,color:C.dim,marginTop:24,letterSpacing:'0.05em'}}>
+          docscribe.ai
+        </div>
+      </div>
+    </g>
+  );
+}
+
+// ─── Wrapper: Scene Gate (renders nothing before scene start) ─────────────
+function G({ children }){ return <>{children}</>; }
+
+// ─── Scene transitions (cross-fade overlay) ───────────────────────────────
+function SceneFader({ transitions }){
+  const t = useTime();
+  return (
+    <>
+      {transitions.map(([at, dur],i)=>{
+        const lt = t - at;
+        if(lt < 0 || lt > dur) return null;
+        const op = Math.sin((lt/dur)*Math.PI);
+        return <div key={i} style={{position:'absolute',inset:0,background:'#060810',opacity:op,pointerEvents:'none'}}/>;
+      })}
+    </>
+  );
+}
+
+// ─── Main App ─────────────────────────────────────────────────────────────
+function App(){
+  const audioRef = React.useRef(null);
+  const [audioReady, setAudioReady] = React.useState(false);
+
+  // Sync audio with stage
+  const { time, playing } = useTimeline ? { time:0, playing:false } : { time:0, playing:false };
+
+  return (
+    <Stage
+      width={1280}
+      height={720}
+      duration={100}
+      background={C.bg}
+      autoplay={false}
+      persistKey="docscribe-vid"
+    >
+      <AudioSync audioRef={audioRef}/>
+
+      {/* Background always */}
+      <div style={{position:'absolute',inset:0,background:C.bg}}/>
+
+      {/* Scenes */}
+      <Sprite start={0} end={10.5} keepMounted={false}><Scene1/></Sprite>
+      <Sprite start={9.5} end={25} keepMounted={false}><Scene2/></Sprite>
+      <Sprite start={23.5} end={39} keepMounted={false}><Scene3/></Sprite>
+      <Sprite start={37.5} end={55} keepMounted={false}><Scene4/></Sprite>
+      <Sprite start={53.5} end={69} keepMounted={false}><Scene5/></Sprite>
+      <Sprite start={67.5} end={81} keepMounted={false}><Scene6/></Sprite>
+      <Sprite start={79.5} end={91} keepMounted={false}><Scene7/></Sprite>
+      <Sprite start={89.5} end={100} keepMounted={false}><Scene8/></Sprite>
+
+      {/* Cross-fades */}
+      <SceneFader transitions={[
+        [9.5,1],[23.5,1],[37.5,1],[53.5,1],[67.5,1],[79.5,1],[89.5,1]
+      ]}/>
+
+      {/* Timestamp label for comments */}
+      <TimestampLabel/>
+
+      {/* Audio */}
+      <audio ref={audioRef} src="uploads/Doc-Scribe-Product Overview.mp3" preload="auto"/>
+    </Stage>
+  );
+}
+
+// ─── Timestamp label (updates every second for comment context) ──────────
+function TimestampLabel(){
+  const t = useTime();
+  const s = Math.floor(t);
+  const m = Math.floor(s/60);
+  const sec = s%60;
+  const label = `${m}:${String(sec).padStart(2,'0')}`;
+  return (
+    <div
+      data-screen-label={label}
+      style={{
+        position:'absolute', top:12, right:16,
+        fontFamily:MONO, fontSize:11, color:'rgba(255,255,255,0.25)',
+        letterSpacing:'0.08em', pointerEvents:'none'
+      }}
+    >{label}</div>
+  );
+}
+
+// ─── Audio Sync component ─────────────────────────────────────────────────
+function AudioSync({ audioRef }){
+  const { time, playing, setTime } = useTimeline();
+
+  React.useEffect(()=>{
+    const audio = audioRef.current;
+    if(!audio) return;
+    if(playing){
+      audio.currentTime = time;
+      audio.play().catch(()=>{});
+    } else {
+      audio.pause();
+    }
+  }, [playing]);
+
+  React.useEffect(()=>{
+    const audio = audioRef.current;
+    if(!audio || !playing) return;
+    const diff = Math.abs(audio.currentTime - time);
+    if(diff > 0.5) audio.currentTime = time;
+  }, [Math.floor(time)]);
+
+  return null;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80">
+  <rect width="120" height="80" fill="#060810"/>
+  <text x="60" y="38" font-family="sans-serif" font-size="18" font-weight="700" fill="#4a8fff" text-anchor="middle">Doc</text>
+  <text x="60" y="58" font-family="sans-serif" font-size="18" font-weight="700" fill="#9066ff" text-anchor="middle">Scribe</text>
+</svg>
+</template>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DocScribe — Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0c12;font-family:'DM Sans',system-ui,sans-serif}
+
+/* ── Layout ─────────────────── */
+#shell{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:0;
+  background:radial-gradient(ellipse at 50% 30%, #111928 0%, #0a0c12 65%);
+}
+
+/* ── Stage ─────────────────── */
+#stage{
+  position:relative;
+  width:880px;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.06);
+  background:#111;
+  flex-shrink:0;
+}
+
+/* Browser chrome */
+#chrome-bar{
+  height:40px;background:#1e2028;
+  display:flex;align-items:center;gap:0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  flex-shrink:0;
+}
+.traffic{display:flex;gap:6px;padding:0 14px}
+.dot{width:12px;height:12px;border-radius:50%}
+#url-bar{
+  flex:1;height:26px;border-radius:13px;
+  background:#13151b;
+  display:flex;align-items:center;gap:8;
+  padding:0 12px;margin:0 12px;
+  font-family:'DM Mono',monospace;font-size:12px;color:rgba(255,255,255,0.45);
+  border:1px solid rgba(255,255,255,0.07);
+}
+.url-icon{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2)}
+
+/* Video area */
+#video-wrap{
+  position:relative;
+  width:100%;background:#000;
+  line-height:0;
+}
+#main-video{width:100%;display:block;max-height:495px;object-fit:contain;background:#000}
+
+/* ── Overlay Canvas ─────────────────── */
+#overlay{
+  position:absolute;inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+/* Chapter pill */
+#chapter-pill{
+  position:absolute;top:20px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:10px;
+  background:rgba(10,12,18,0.82);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:50px;padding:8px 18px;
+  backdrop-filter:blur(12px);
+  opacity:0;transition:opacity 0.4s;
+  white-space:nowrap;
+}
+#chapter-pill.show{opacity:1}
+#chapter-num{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:oklch(68% 0.19 248);letter-spacing:.1em;text-transform:uppercase;
+}
+#chapter-title{font-size:14px;font-weight:600;color:#eef2ff}
+
+/* Step badge */
+#step-badge{
+  position:absolute;top:20px;right:16px;
+  background:oklch(68% 0.19 248);
+  color:white;font-size:12px;font-weight:600;
+  font-family:'DM Mono',monospace;
+  border-radius:20px;padding:5px 12px;
+  opacity:0;transition:opacity 0.4s;letter-spacing:.04em;
+}
+#step-badge.show{opacity:1}
+
+/* Callout box */
+.callout{
+  position:absolute;
+  background:rgba(10,12,20,0.88);
+  border:1.5px solid oklch(68% 0.19 248 / 0.6);
+  border-radius:12px;padding:12px 16px;
+  font-size:14px;font-weight:500;color:#eef2ff;
+  max-width:260px;line-height:1.5;
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 24px rgba(74,143,255,0.2);
+  opacity:0;transition:opacity 0.35s,transform 0.35s;
+  transform:translateY(6px);
+  pointer-events:none;
+}
+.callout.show{opacity:1;transform:translateY(0)}
+.callout-arrow{
+  position:absolute;width:28px;height:28px;
+  background:oklch(68% 0.19 248);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#fff;
+  top:-14px;left:16px;
+}
+
+/* Spotlight ring */
+.spotlight{
+  position:absolute;
+  border:2.5px solid oklch(68% 0.19 248);
+  border-radius:8px;
+  box-shadow:0 0 0 3000px rgba(0,0,0,0.45);
+  opacity:0;transition:opacity 0.4s;
+  pointer-events:none;
+}
+.spotlight.show{opacity:1}
+
+/* Progress bar */
+#progress-wrap{
+  position:absolute;bottom:0;left:0;right:0;
+  height:3px;background:rgba(255,255,255,0.1);
+  cursor:pointer;
+}
+#progress-fill{height:100%;background:linear-gradient(90deg,oklch(68% 0.19 248),oklch(66% 0.17 290));width:0%;transition:width .1s linear}
+#progress-wrap:hover{height:6px}
+
+/* Chapter dots on progress */
+.chapter-dot{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(255,255,255,0.6);
+  cursor:pointer;
+  transition:transform .2s;
+}
+.chapter-dot:hover{transform:translateY(-50%) scale(1.6)}
+
+/* ── Controls bar ─────────────────── */
+#controls{
+  width:880px;
+  display:flex;align-items:center;gap:12px;
+  padding:10px 4px;
+  flex-shrink:0;
+}
+.ctrl-btn{
+  width:32px;height:32px;border-radius:8px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.08);
+  color:#eef2ff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;flex-shrink:0;
+}
+.ctrl-btn:hover{background:rgba(255,255,255,0.12)}
+#time-display{
+  font-family:'DM Mono',monospace;font-size:12px;
+  color:rgba(238,242,255,0.5);
+  white-space:nowrap;flex-shrink:0;
+}
+#chapter-name-bar{
+  flex:1;font-size:13px;color:rgba(238,242,255,0.55);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* ── Chapter list panel ─────────────────── */
+#chapter-panel{
+  width:880px;
+  display:flex;gap:8px;padding:0 0 0 2px;
+  flex-wrap:wrap;
+  flex-shrink:0;
+  margin-top:4px;
+}
+.ch-item{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 12px;border-radius:20px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  cursor:pointer;transition:background .15s,border-color .15s;
+  font-size:12.5px;color:rgba(238,242,255,0.55);
+  white-space:nowrap;
+}
+.ch-item:hover{background:rgba(255,255,255,0.09);color:#eef2ff}
+.ch-item.active{
+  background:oklch(68% 0.19 248 / 0.12);
+  border-color:oklch(68% 0.19 248 / 0.4);
+  color:oklch(75% 0.16 248);
+}
+.ch-time{font-family:'DM Mono',monospace;font-size:10px;opacity:.5}
+</style>
+</head>
+<body>
+<div id="shell">
+
+  <!-- Stage -->
+  <div id="stage">
+    <!-- Browser chrome -->
+    <div id="chrome-bar">
+      <div class="traffic">
+        <div class="dot" style="background:#ff5f57"></div>
+        <div class="dot" style="background:#febc2e"></div>
+        <div class="dot" style="background:#28c840"></div>
+      </div>
+      <div id="url-bar">
+        <div class="url-icon"></div>
+        app.docscribe.ai
+      </div>
+      <div style="width:60px"></div>
+    </div>
+
+    <!-- Video -->
+    <div id="video-wrap">
+      <video id="main-video" src="uploads/Product Overview v5 (1).mp4"
+        playsinline preload="metadata"></video>
+
+      <!-- Overlay -->
+      <div id="overlay">
+        <!-- Chapter pill -->
+        <div id="chapter-pill">
+          <span id="chapter-num">Step 01</span>
+          <span id="chapter-title">Introduction</span>
+        </div>
+        <!-- Step badge -->
+        <div id="step-badge">1 / 6</div>
+        <!-- Callouts injected here by JS -->
+      </div>
+
+      <!-- Progress -->
+      <div id="progress-wrap" id="progress-wrap">
+        <div id="progress-fill"></div>
+        <!-- chapter dots injected -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div id="controls">
+    <button class="ctrl-btn" id="btn-play" title="Play/Pause (Space)">
+      <svg id="play-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M3 2l9 5-9 5V2z" fill="currentColor"/>
+      </svg>
+    </button>
+    <button class="ctrl-btn" id="btn-restart" title="Restart">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+        <path d="M2 7A5 5 0 1 0 7 2V0L3.5 3 7 6V4a3 3 0 1 1-3 3H2z" fill="currentColor"/>
+      </svg>
+    </button>
+    <div id="time-display">0:00 / 0:00</div>
+    <div id="chapter-name-bar">—</div>
+    <button class="ctrl-btn" id="btn-mute" title="Mute">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" id="vol-icon">
+        <path d="M2 5h2l3-3v10L4 9H2V5zM10 4a4 4 0 0 1 0 6M8.5 5.5a2 2 0 0 1 0 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+      </svg>
+    </button>
+    <button class="ctrl-btn" id="btn-fullscreen" title="Fullscreen">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+        <path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Chapter list -->
+  <div id="chapter-panel"></div>
+</div>
+
+<script>
+// ── Chapter definitions ────────────────────────────────────────────────────
+// Timestamps in seconds — edit to match your video content
+const CHAPTERS = [
+  { t:0,   label:'Introduction',         icon:'👋', callout:'Welcome to DocScribe — your AI meeting intelligence platform.',         calloutPos:{top:'18%',left:'5%'} },
+  { t:15,  label:'Recording a Meeting',  icon:'🎙️', callout:'Hit Record — DocScribe captures audio from any platform in real time.',   calloutPos:{top:'20%',right:'5%'} },
+  { t:35,  label:'Live Transcription',   icon:'📝', callout:'Every word is transcribed live. Speaker labels applied automatically.',     calloutPos:{bottom:'28%',left:'5%'} },
+  { t:55,  label:'AI Smart Summary',     icon:'✨', callout:'One click → structured summary, key decisions, and action items extracted.', calloutPos:{top:'18%',right:'5%'} },
+  { t:75,  label:'Action Items & Tasks', icon:'✅', callout:'Assigned tasks sync straight to Jira, Notion, or your team\'s tool of choice.', calloutPos:{bottom:'28%',left:'5%'} },
+  { t:95,  label:'Share & Export',       icon:'🚀', callout:'Send the full brief to your team in one click. Zero formatting required.',   calloutPos:{top:'18%',left:'5%'} },
+];
+
+// ── DOM refs ───────────────────────────────────────────────────────────────
+const video       = document.getElementById('main-video');
+const overlay     = document.getElementById('overlay');
+const progressWrap= document.getElementById('progress-wrap');
+const progressFill= document.getElementById('progress-fill');
+const chapterPill = document.getElementById('chapter-pill');
+const chapterNum  = document.getElementById('chapter-num');
+const chapterTitle= document.getElementById('chapter-title');
+const stepBadge   = document.getElementById('step-badge');
+const btnPlay     = document.getElementById('btn-play');
+const btnRestart  = document.getElementById('btn-restart');
+const btnMute     = document.getElementById('btn-mute');
+const btnFs       = document.getElementById('btn-fullscreen');
+const timeDisplay = document.getElementById('time-display');
+const chapterBar  = document.getElementById('chapter-name-bar');
+const chapterPanel= document.getElementById('chapter-panel');
+
+// ── Build chapter dots on progress bar ────────────────────────────────────
+let chapterCallouts = [];
+let pillTimeout = null;
+let currentChapterIdx = -1;
+
+video.addEventListener('loadedmetadata', () => {
+  const dur = video.duration;
+  CHAPTERS.forEach((ch, i) => {
+    // Dot
+    const dot = document.createElement('div');
+    dot.className = 'chapter-dot';
+    dot.style.left = `${(ch.t / dur) * 100}%`;
+    dot.title = ch.label;
+    dot.addEventListener('click', e => { e.stopPropagation(); video.currentTime = ch.t; });
+    progressWrap.appendChild(dot);
+
+    // Callout element
+    const box = document.createElement('div');
+    box.className = 'callout';
+    box.style.cssText = Object.entries(ch.calloutPos).map(([k,v])=>`${k}:${v}`).join(';');
+    box.innerHTML = `<div class="callout-arrow">${i+1}</div>${ch.callout}`;
+    overlay.appendChild(box);
+    chapterCallouts.push(box);
+
+    // Chapter panel item
+    const item = document.createElement('div');
+    item.className = 'ch-item';
+    item.dataset.idx = i;
+    item.innerHTML = `<span>${ch.icon}</span><span>${ch.label}</span><span class="ch-time">${fmt(ch.t)}</span>`;
+    item.addEventListener('click', () => { video.currentTime = ch.t; video.play(); });
+    chapterPanel.appendChild(item);
+  });
+
+  updateTime();
+});
+
+// ── Current chapter logic ──────────────────────────────────────────────────
+function getCurrentChapter(t) {
+  let idx = 0;
+  for (let i = 0; i < CHAPTERS.length; i++) {
+    if (t >= CHAPTERS[i].t) idx = i; else break;
+  }
+  return idx;
+}
+
+function showChapterPill(idx) {
+  chapterNum.textContent = `Step ${String(idx+1).padStart(2,'0')}`;
+  chapterTitle.textContent = CHAPTERS[idx].label;
+  chapterPill.classList.add('show');
+  stepBadge.textContent = `${idx+1} / ${CHAPTERS.length}`;
+  stepBadge.classList.add('show');
+  clearTimeout(pillTimeout);
+  pillTimeout = setTimeout(() => {
+    chapterPill.classList.remove('show');
+    stepBadge.classList.remove('show');
+  }, 3000);
+}
+
+// ── timeupdate ────────────────────────────────────────────────────────────
+video.addEventListener('timeupdate', () => {
+  const t = video.currentTime;
+  const dur = video.duration || 1;
+
+  // Progress fill
+  progressFill.style.width = `${(t/dur)*100}%`;
+
+  // Time display
+  timeDisplay.textContent = `${fmt(t)} / ${fmt(dur)}`;
+
+  // Current chapter
+  const idx = getCurrentChapter(t);
+
+  // Chapter bar name
+  chapterBar.textContent = `${CHAPTERS[idx].icon}  ${CHAPTERS[idx].label}`;
+
+  // Highlight active chapter in panel
+  document.querySelectorAll('.ch-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+
+  // On chapter change
+  if (idx !== currentChapterIdx) {
+    currentChapterIdx = idx;
+    showChapterPill(idx);
+
+    // Show callout for this chapter, hide others
+    chapterCallouts.forEach((box, i) => {
+      box.classList.toggle('show', i === idx);
+    });
+  }
+});
+
+// ── Scrub ─────────────────────────────────────────────────────────────────
+let scrubbing = false;
+progressWrap.addEventListener('mousedown', e => {
+  scrubbing = true;
+  doScrub(e);
+});
+window.addEventListener('mousemove', e => { if (scrubbing) doScrub(e); });
+window.addEventListener('mouseup', () => { scrubbing = false; });
+function doScrub(e) {
+  const r = progressWrap.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+  video.currentTime = pct * video.duration;
+}
+
+// ── Play/pause ────────────────────────────────────────────────────────────
+function updatePlayIcon() {
+  document.getElementById('play-icon').innerHTML = video.paused
+    ? '<path d="M3 2l9 5-9 5V2z" fill="currentColor"/>'
+    : '<rect x="3" y="2" width="3" height="10" fill="currentColor"/><rect x="8" y="2" width="3" height="10" fill="currentColor"/>';
+}
+btnPlay.addEventListener('click', () => { video.paused ? video.play() : video.pause(); });
+video.addEventListener('play', updatePlayIcon);
+video.addEventListener('pause', updatePlayIcon);
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); video.paused ? video.play() : video.pause(); }
+  if (e.code === 'ArrowRight') video.currentTime = Math.min(video.duration, video.currentTime+5);
+  if (e.code === 'ArrowLeft')  video.currentTime = Math.max(0, video.currentTime-5);
+});
+
+// ── Restart ───────────────────────────────────────────────────────────────
+btnRestart.addEventListener('click', () => { video.currentTime = 0; video.play(); });
+
+// ── Mute ──────────────────────────────────────────────────────────────────
+btnMute.addEventListener('click', () => {
+  video.muted = !video.muted;
+  document.getElementById('vol-icon').style.opacity = video.muted ? 0.3 : 1;
+});
+
+// ── Fullscreen ────────────────────────────────────────────────────────────
+btnFs.addEventListener('click', () => {
+  const el = document.getElementById('stage');
+  if (!document.fullscreenElement) el.requestFullscreen();
+  else document.exitFullscreen();
+});
+
+// ── Format time ───────────────────────────────────────────────────────────
+function fmt(s) {
+  const m = Math.floor(s/60);
+  const sec = Math.floor(s%60);
+  return `${m}:${String(sec).padStart(2,'0')}`;
+}
+
+function updateTime() {
+  timeDisplay.textContent = `${fmt(0)} / ${fmt(video.duration||0)}`;
+}
+
+// ── Responsive scaling ────────────────────────────────────────────────────
+function scaleShell() {
+  const W = 880;
+  const shellEl = document.getElementById('shell');
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const scale = Math.min(1, vw / (W + 32), vh / 700);
+  shellEl.style.transform = `scale(${scale})`;
+  shellEl.style.transformOrigin = 'center center';
+}
+scaleShell();
+window.addEventListener('resize', scaleShell);
+</script>
+</body>
+</html>

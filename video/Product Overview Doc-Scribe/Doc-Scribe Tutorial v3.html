@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DOC-SCRIBE.AI — Product Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Inter',system-ui,sans-serif}
+
+/* ── Stage ── */
+#stage{
+  position:relative;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  background:#000;overflow:hidden;
+}
+#main-video{
+  width:100%;height:100%;object-fit:contain;display:block;
+  transform:scale(1.06);
+}
+
+/* ── Overlay ── */
+#overlay{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+
+/* ── INTRO splash ── */
+#intro{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#060d1a 0%,#0a1f3d 50%,#060d1a 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  z-index:100;pointer-events:all;cursor:pointer;
+  transition:opacity .6s ease;
+}
+#intro.out{opacity:0;pointer-events:none}
+
+/* Animated grid bg */
+#intro::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(0,230,118,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,230,118,.04) 1px,transparent 1px);
+  background-size:48px 48px;
+  animation:gridScroll 12s linear infinite;
+}
+@keyframes gridScroll{from{background-position:0 0}to{background-position:48px 48px}}
+
+/* Glow orbs */
+#intro::after{
+  content:'';position:absolute;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,230,118,.12) 0%,transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-55%);
+  animation:glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse{0%,100%{opacity:.7;transform:translate(-50%,-55%) scale(1)}50%{opacity:1;transform:translate(-50%,-55%) scale(1.08)}}
+
+.intro-logo{
+  position:relative;z-index:2;
+  display:flex;align-items:center;gap:12px;
+  font-size:38px;font-weight:800;color:#fff;letter-spacing:-.02em;
+}
+.intro-logo span{color:#00e676}
+.intro-tagline{
+  position:relative;z-index:2;
+  font-size:18px;font-weight:300;
+  color:rgba(255,255,255,.55);letter-spacing:.01em;
+}
+.intro-play-btn{
+  position:relative;z-index:2;
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,#00e676,#00b894);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 16px rgba(0,230,118,.1),0 0 48px rgba(0,230,118,.4);
+  animation:btnPulse 2s ease-in-out infinite;
+  transition:transform .2s;
+}
+.intro-play-btn:hover{transform:scale(1.1)}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 16px rgba(0,230,118,.1),0 0 48px rgba(0,230,118,.4)}
+  50%{box-shadow:0 0 0 24px rgba(0,230,118,.06),0 0 64px rgba(0,230,118,.6)}}
+
+.intro-chips{
+  position:relative;z-index:2;
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+  max-width:600px;
+}
+.intro-chip{
+  padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;
+  border:1px solid rgba(0,230,118,.3);color:rgba(0,230,118,.9);
+  background:rgba(0,230,118,.06);letter-spacing:.04em;
+}
+
+/* ── Chapter pill (top center) ── */
+#chapter-pill{
+  position:absolute;top:20px;left:50%;
+  transform:translateX(-50%) translateY(-16px);
+  display:flex;align-items:center;gap:10px;
+  background:rgba(6,13,26,.82);
+  border:1px solid rgba(0,230,118,.25);
+  border-radius:50px;padding:9px 20px;
+  backdrop-filter:blur(20px);
+  opacity:0;transition:opacity .5s,transform .5s;
+  white-space:nowrap;
+  box-shadow:0 4px 24px rgba(0,0,0,.5),0 0 0 1px rgba(0,230,118,.08);
+}
+#chapter-pill.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.pill-step{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:#00e676;letter-spacing:.18em;text-transform:uppercase;
+  background:rgba(0,230,118,.12);padding:2px 8px;border-radius:10px;
+}
+.pill-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.2)}
+.pill-name{font-size:13px;font-weight:600;color:#f0fff8;letter-spacing:-.01em}
+
+/* ── Subtitle bar ── */
+#subtitle-bar{
+  position:absolute;bottom:54px;left:0;right:0;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  opacity:0;transition:opacity .5s;
+}
+#subtitle-bar.show{opacity:1}
+#subtitle-inner{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(16px);
+  border-radius:8px;padding:9px 20px;
+  max-width:700px;
+}
+#subtitle-icon{font-size:16px;flex-shrink:0}
+#subtitle-text{
+  font-size:14px;font-weight:400;color:rgba(255,255,255,.88);
+  line-height:1.4;text-align:center;
+}
+
+/* ── Progress bar ── */
+#progress-area{
+  position:absolute;bottom:0;left:0;right:0;
+  height:52px;pointer-events:all;
+  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+#track{
+  position:relative;width:100%;height:3px;
+  background:rgba(255,255,255,.12);cursor:pointer;
+  transition:height .2s;
+}
+#track:hover{height:5px}
+#fill{
+  height:100%;
+  background:linear-gradient(90deg,#00e676,#00b894);
+  width:0%;pointer-events:none;
+  transition:width .1s linear;
+}
+.cdot{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:9px;height:9px;border-radius:50%;
+  background:#fff;border:2px solid #00e676;
+  cursor:pointer;z-index:2;transition:transform .2s;
+}
+.cdot:hover{transform:translateY(-50%) scale(1.8)}
+
+/* ── Controls ── */
+#controls{
+  position:absolute;bottom:0;left:0;right:0;
+  display:flex;align-items:center;gap:10px;
+  padding:8px 16px 14px;pointer-events:all;
+}
+.cbtn{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  color:#f0fff8;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,border-color .15s;
+}
+.cbtn:hover{background:rgba(0,230,118,.15);border-color:rgba(0,230,118,.3)}
+#time-display{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:rgba(240,255,248,.45);white-space:nowrap;flex-shrink:0;
+}
+#cur-chapter{
+  flex:1;font-size:12px;font-weight:500;
+  color:rgba(240,255,248,.45);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* ── Chapter strip (hover) ── */
+#chapter-strip{
+  position:absolute;bottom:52px;left:0;right:0;
+  display:flex;gap:6px;padding:0 14px 8px;
+  overflow-x:auto;scrollbar-width:none;
+  pointer-events:all;
+  opacity:0;transition:opacity .3s;
+}
+#stage:hover #chapter-strip{opacity:1}
+#chapter-strip::-webkit-scrollbar{display:none}
+
+.cstep{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:16px;flex-shrink:0;
+  background:rgba(0,0,0,.6);
+  border:1px solid rgba(255,255,255,.08);
+  cursor:pointer;transition:all .2s;
+  font-size:11.5px;color:rgba(240,255,248,.5);
+  backdrop-filter:blur(12px);white-space:nowrap;
+}
+.cstep:hover{background:rgba(0,230,118,.1);border-color:rgba(0,230,118,.25);color:#f0fff8}
+.cstep.active{
+  background:rgba(0,230,118,.12);
+  border-color:rgba(0,230,118,.45);
+  color:#00e676;font-weight:600;
+}
+.cstep-time{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9.5px;opacity:.5;margin-left:2px;
+}
+
+/* ── Step counter badge ── */
+#step-count{
+  position:absolute;top:20px;right:20px;
+  background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:5px 14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:rgba(240,255,248,.45);
+  backdrop-filter:blur(10px);
+  opacity:0;transition:opacity .4s;
+}
+#step-count.show{opacity:1}
+</style>
+</head>
+<body>
+<div id="stage">
+  <video id="main-video" src="uploads/Product Overview v3.mp4"
+    playsinline preload="metadata"></video>
+
+  <!-- Overlay -->
+  <div id="overlay">
+    <div id="chapter-pill">
+      <span class="pill-step" id="pill-step">01</span>
+      <span class="pill-dot"></span>
+      <span class="pill-name" id="pill-name">Dashboard</span>
+    </div>
+    <div id="step-count"></div>
+    <!-- subtitle bar -->
+    <div id="subtitle-bar">
+      <div id="subtitle-inner">
+        <span id="subtitle-icon"></span>
+        <span id="subtitle-text"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div id="progress-area">
+    <div id="track">
+      <div id="fill"></div>
+      <!-- chapter dots injected -->
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div id="controls">
+    <button class="cbtn" id="btn-play">
+      <svg id="play-icon" width="13" height="13" viewBox="0 0 14 14" fill="none">
+        <path d="M3 2l9 5-9 5V2z" fill="currentColor"/>
+      </svg>
+    </button>
+    <button class="cbtn" id="btn-restart">
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+        <path d="M2 7A5 5 0 1 0 7 2V0L3.5 3 7 6V4a3 3 0 1 1-3 3H2z" fill="currentColor"/>
+      </svg>
+    </button>
+    <div id="time-display">0:00 / 0:00</div>
+    <div id="cur-chapter"></div>
+    <button class="cbtn" id="btn-mute">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" id="vol-icon">
+        <path d="M2 5h2l3-3v10L4 9H2V5z" fill="currentColor"/>
+        <path d="M10 4a4 4 0 0 1 0 6M8.5 5.5a2 2 0 0 1 0 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <button class="cbtn" id="btn-fs">
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+        <path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Chapter strip -->
+  <div id="chapter-strip"></div>
+
+  <!-- Intro -->
+  <div id="intro">
+    <div class="intro-logo">DOC-SCRIBE<span>.AI</span></div>
+    <div class="intro-tagline">Complete Product Walkthrough · Under 1 Minute</div>
+    <div class="intro-play-btn">
+      <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+        <path d="M8 5l18 9-18 9V5z" fill="white"/>
+      </svg>
+    </div>
+    <div class="intro-chips">
+      <span class="intro-chip">📊 Dashboard</span>
+      <span class="intro-chip">📁 My Box</span>
+      <span class="intro-chip">🗂️ Collections</span>
+      <span class="intro-chip">🔗 Shared Files</span>
+      <span class="intro-chip">🏷️ File Tags</span>
+      <span class="intro-chip">🔍 Audit Trail</span>
+      <span class="intro-chip">🌐 Multi-language</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Real chapters from actual screenshots ─────────────────────────────────
+const CHAPTERS = [
+  {
+    t: 3,
+    label: 'Dashboard',
+    icon: '📊',
+    color: '#00e676',
+    title: 'Your Command Center',
+    desc: 'Monitor Total Documents, AI Consumption, Active Categories and your Department — all at a glance.',
+    side: 'from-bottom',
+    pos: { bottom: '80px', left: '20px' },
+  },
+  {
+    t: 10,
+    label: 'My Box',
+    icon: '📁',
+    color: '#00b4d8',
+    title: 'All Your Documents',
+    desc: 'Browse and search every file with smart columns: File Tag, Category, Sub-Category, AI status, Size and Owner.',
+    side: 'from-right',
+    pos: { top: '80px', right: '20px' },
+  },
+  {
+    t: 12,
+    label: 'Manage Categories',
+    icon: '🗂️',
+    color: '#f77f00',
+    title: 'Smart Categorization',
+    desc: 'Create custom categories and sub-categories to keep every document perfectly organized.',
+    side: 'from-left',
+    pos: { top: '80px', left: '20px' },
+  },
+  {
+    t: 15,
+    label: 'Collections',
+    icon: '📚',
+    color: '#7b2d8b',
+    title: 'Group & Curate',
+    desc: 'Bundle related documents into Collections. Share them with teammates or keep them private.',
+    side: 'from-right',
+    pos: { top: '80px', right: '20px' },
+  },
+  {
+    t: 18,
+    label: 'Shared Files',
+    icon: '🔗',
+    color: '#00e676',
+    title: 'Seamless Collaboration',
+    desc: 'See documents shared with you and track everything you\'ve shared with your team — across departments.',
+    side: 'from-left',
+    pos: { top: '80px', left: '20px' },
+  },
+  {
+    t: 20,
+    label: 'Upload File',
+    icon: '⬆️',
+    color: '#00b4d8',
+    title: 'Upload in Seconds',
+    desc: 'Drag and drop any file — DocScribe AI processes, tags and categorizes it automatically.',
+    side: 'from-right',
+    pos: { bottom: '80px', right: '20px' },
+  },
+  {
+    t: 25,
+    label: 'Trash',
+    icon: '🗑️',
+    color: '#e63946',
+    title: 'Safe & Recoverable',
+    desc: 'Deleted files stay in Trash for 30 days. Restore any file before it\'s permanently removed.',
+    side: 'from-bottom',
+    pos: { bottom: '80px', left: '20px' },
+  },
+  {
+    t: 27,
+    label: 'File Tags',
+    icon: '🏷️',
+    color: '#f77f00',
+    title: 'Lightning-Fast Discovery',
+    desc: 'Apply custom tags to documents for instant filtering — find anything in seconds.',
+    side: 'from-left',
+    pos: { top: '80px', left: '20px' },
+  },
+  {
+    t: 29,
+    label: 'Audit Trail',
+    icon: '🔍',
+    color: '#7b2d8b',
+    title: 'Full Accountability',
+    desc: 'Monitor every File, User, Department and Settings event. Logs preserved for 90 days.',
+    side: 'from-right',
+    pos: { top: '80px', right: '20px' },
+  },
+  {
+    t: 33,
+    label: 'Dark / Light Mode',
+    icon: '☀️',
+    color: '#ffd166',
+    title: 'Your Preferred Look',
+    desc: 'Switch between Dark and Light mode — work comfortably any time of day.',
+    side: 'from-bottom',
+    pos: { bottom: '80px', right: '20px' },
+  },
+  {
+    t: 37,
+    label: 'Multi-Language',
+    icon: '🌐',
+    color: '#00e676',
+    title: 'Global-Ready',
+    desc: 'Switch the entire interface to your preferred language — including Bahasa Malaysia — instantly.',
+    side: 'from-left',
+    pos: { top: '80px', left: '20px' },
+  },
+];
+
+// ── DOM ────────────────────────────────────────────────────────────────────
+const video       = document.getElementById('main-video');
+const overlay     = document.getElementById('overlay');
+const track       = document.getElementById('track');
+const fill        = document.getElementById('fill');
+const pillStep    = document.getElementById('pill-step');
+const pillName    = document.getElementById('pill-name');
+const pill        = document.getElementById('chapter-pill');
+const stepCount   = document.getElementById('step-count');
+const btnPlay     = document.getElementById('btn-play');
+const btnRestart  = document.getElementById('btn-restart');
+const btnMute     = document.getElementById('btn-mute');
+const btnFs       = document.getElementById('btn-fs');
+const timeDisplay = document.getElementById('time-display');
+const curChapter  = document.getElementById('cur-chapter');
+const strip       = document.getElementById('chapter-strip');
+const intro       = document.getElementById('intro');
+
+let pillTimer = null;
+let subTimer = null;
+let curIdx = -1;
+
+const subtitleBar  = document.getElementById('subtitle-bar');
+const subtitleIcon = document.getElementById('subtitle-icon');
+const subtitleText = document.getElementById('subtitle-text');
+
+// ── Build overlays after metadata ─────────────────────────────────────────
+video.addEventListener('loadedmetadata', () => {
+  const dur = video.duration;
+  timeDisplay.textContent = `0:00 / ${fmt(dur)}`;
+  stepCount.textContent = `1 / ${CHAPTERS.length}`;
+
+  CHAPTERS.forEach((ch, i) => {
+    // Chapter dot on track
+    const dot = document.createElement('div');
+    dot.className = 'cdot';
+    dot.style.left = `${(ch.t / dur) * 100}%`;
+    dot.title = ch.label;
+    dot.addEventListener('click', e => { e.stopPropagation(); video.currentTime = ch.t; video.play(); });
+    track.appendChild(dot);
+
+    // Strip button
+    const btn = document.createElement('div');
+    btn.className = 'cstep';
+    btn.dataset.idx = i;
+    btn.innerHTML = `<span>${ch.icon}</span><span>${ch.label}</span><span class="cstep-time">${fmt(ch.t)}</span>`;
+    btn.addEventListener('click', () => { video.currentTime = ch.t; video.play(); });
+    strip.appendChild(btn);
+  });
+});
+
+// ── Chapter index ──────────────────────────────────────────────────────────
+function getIdx(t) {
+  let idx = 0;
+  for (let i = 0; i < CHAPTERS.length; i++) {
+    if (t >= CHAPTERS[i].t) idx = i; else break;
+  }
+  return idx;
+}
+
+function flashPill(idx) {
+  const ch = CHAPTERS[idx];
+  pillStep.textContent = String(idx + 1).padStart(2, '0');
+  pillName.textContent = ch.label;
+  pillStep.style.color = ch.color;
+  pillStep.style.background = ch.color + '18';
+  pill.classList.add('show');
+  stepCount.textContent = `${idx + 1} / ${CHAPTERS.length}`;
+  stepCount.classList.add('show');
+  clearTimeout(pillTimer);
+  pillTimer = setTimeout(() => {
+    pill.classList.remove('show');
+    stepCount.classList.remove('show');
+  }, 3800);
+}
+
+// ── timeupdate ─────────────────────────────────────────────────────────────
+video.addEventListener('timeupdate', () => {
+  const t = video.currentTime, dur = video.duration || 1;
+  fill.style.width = `${(t / dur) * 100}%`;
+  timeDisplay.textContent = `${fmt(t)} / ${fmt(dur)}`;
+
+  const idx = getIdx(t);
+  const ch = CHAPTERS[idx];
+  curChapter.textContent = `${ch.icon}  ${ch.label}`;
+
+  document.querySelectorAll('.cstep').forEach((el, i) => el.classList.toggle('active', i === idx));
+
+  if (idx !== curIdx) {
+    curIdx = idx;
+    flashPill(idx);
+    // Show subtitle briefly
+    const ch = CHAPTERS[idx];
+    subtitleIcon.textContent = ch.icon;
+    subtitleText.textContent = ch.label;
+    subtitleBar.classList.add('show');
+    clearTimeout(subTimer);
+    subTimer = setTimeout(() => subtitleBar.classList.remove('show'), 4000);
+  }
+});
+
+// ── Scrub ──────────────────────────────────────────────────────────────────
+let scrubbing = false;
+track.addEventListener('mousedown', e => { scrubbing = true; doScrub(e); });
+window.addEventListener('mousemove', e => { if (scrubbing) doScrub(e); });
+window.addEventListener('mouseup', () => { scrubbing = false; });
+function doScrub(e) {
+  const r = track.getBoundingClientRect();
+  video.currentTime = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * video.duration;
+}
+
+// ── Controls ───────────────────────────────────────────────────────────────
+function updateIcon() {
+  document.getElementById('play-icon').innerHTML = video.paused
+    ? '<path d="M3 2l9 5-9 5V2z" fill="currentColor"/>'
+    : '<rect x="3" y="2" width="3" height="10" fill="currentColor"/><rect x="8" y="2" width="3" height="10" fill="currentColor"/>';
+}
+function toggle() { video.paused ? video.play() : video.pause(); }
+
+btnPlay.addEventListener('click', toggle);
+video.addEventListener('play', () => { updateIcon(); intro.classList.add('out'); });
+video.addEventListener('pause', updateIcon);
+intro.addEventListener('click', () => video.play());
+
+btnRestart.addEventListener('click', () => { video.currentTime = 0; video.play(); });
+
+btnMute.addEventListener('click', () => {
+  video.muted = !video.muted;
+  document.getElementById('vol-icon').style.opacity = video.muted ? 0.3 : 1;
+});
+
+btnFs.addEventListener('click', () => {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else document.getElementById('stage').requestFullscreen();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); toggle(); }
+  if (e.code === 'ArrowRight') video.currentTime = Math.min(video.duration, video.currentTime + 3);
+  if (e.code === 'ArrowLeft')  video.currentTime = Math.max(0, video.currentTime - 3);
+  if (e.key  === '0')          { video.currentTime = 0; }
+});
+
+// ── Format ─────────────────────────────────────────────────────────────────
+function fmt(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return `${m}:${String(sec).padStart(2, '0')}`;
+}
+</script>
+</body>
+</html>

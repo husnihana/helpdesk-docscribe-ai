@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3 add_videos.py)"
+      "Bash(python3 add_videos.py)",
+      "WebFetch(domain:localhost)"
     ]
   }
 }
