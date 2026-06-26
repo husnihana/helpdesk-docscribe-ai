@@ -47,14 +47,26 @@ window.CATS = [
   {
     id: 'getting-started', title: '入门指南', bg: '#dbeafe', fg: '#1B2571',
     desc: '了解什么是 Doc-Scribe.ai 以及它如何改变您的文档工作流程。',
-    arts: ['what-is', 'how-it-works', 'language'],
+    arts: ['what-is', 'how-it-works', 'the-interface', 'language'],
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 6 6 6 12c0 2 1 4 2 5l4 2 4-2c1-1 2-3 2-5 0-6-6-10-6-10z"/><circle cx="12" cy="12" r="2"/><path d="M6 17c-2 1-3 3-2 4s3 0 4-2"/><path d="M18 17c2 1 3 3 2 4s-3 0-4-2"/></svg>'
   },
   {
     id: 'doc-management', title: '文档管理', bg: '#d1fae5', fg: '#047857',
     desc: '有效地上传、整理、标注和管理您的文档。',
-    arts: ['upload', 'mybox-vs-cat', 'create-cat', 'collections', 'metadata', 'file-compatibility'],
+    arts: ['upload', 'file-versioning', 'mybox-vs-cat', 'duplication', 'collections', 'metadata', 'file-compatibility'],
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h3.5l2 2H19a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M12 11v4M10 13h4"/></svg>'
+  },
+  {
+    id: 'cat-management', title: '分类管理', bg: '#ccfbf1', fg: '#0f766e',
+    desc: '创建、编辑、共享和删除文档分类。',
+    arts: ['create-cat', 'edit-cat', 'share-cat', 'delete-cat'],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h3.5l2 2H19a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="7" y1="15" x2="14" y2="15"/></svg>'
+  },
+  {
+    id: 'subcat-management', title: '子分类管理', bg: '#e0e7ff', fg: '#3730a3',
+    desc: '在分类内创建、管理和整理子分类。',
+    arts: ['subcategories', 'multilevel-subcat', 'edit-subcat', 'delete-subcat'],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h3.5l2 2H19a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><line x1="9" y1="12" x2="17" y2="12"/><line x1="11" y1="15" x2="17" y2="15"/><path d="M9 12v3"/></svg>'
   },
   {
     id: 'ai-features', title: 'AI 功能', bg: '#fce7f3', fg: '#be185d',
@@ -96,12 +108,22 @@ window.ARTS = {
 
   'how-it-works': { 
     cat: 'getting-started', title: 'Doc-Scribe.ai 工作原理', exc: '将文档管理系统与专为企业打造的私有 AI 引擎相结合。', 
-    body: '<p>Doc-Scribe.ai 将 <strong>文档管理系统 (DMS)</strong> 与专门针对企业文档设计的私有 AI 引擎相结合。</p><h2>核心能力</h2><ul><li>安全存储并整理文档</li><li>使用自然语言搜索文档</li><li>利用 AI 分析文档</li><li>自动提取关键信息</li><li>即时生成摘要和见解</li></ul><img class="screenshot" src="images/image1.png" onclick="openLb(this.src)" alt="Doc-Scribe.ai 平台概览图"><p class="screenshot-caption">Doc-Scribe.ai —— AI 引擎将您的文档转化为即时答复和更明智的决策</p><h2>安全企业平台</h2><ul><li>私有 AI 环境 —— 您的数据永远不会离开组织</li><li>基于角色的访问控制</li><li>安全文档分享</li><li>基于权限的数据访问</li></ul><h2>多文档交互</h2><p>用户可以<strong>同时向多个文档提问</strong>，即时从大型文档集中发现见解。</p><div class="tip"><strong>原理：</strong> 系统读取您的文档，构建私有知识索引，并允许您通过聊天界面进行交互 —— 一切都在安全、私密的丛林中完成。</div>' 
+    body: '<p>Doc-Scribe.ai 将 <strong>文档管理系统 (DMS)</strong> 与专门针对企业文档设计的私有 AI 引擎相结合。</p><h2>核心能力</h2><ul><li>安全存储并整理文档</li><li>使用自然语言搜索文档</li><li>利用 AI 分析文档</li><li>自动提取关键信息</li><li>即时生成摘要和见解</li></ul><h2>安全企业平台</h2><ul><li>私有 AI 环境 —— 您的数据永远不会离开组织</li><li>基于角色的访问控制</li><li>安全文档分享</li><li>基于权限的数据访问</li></ul><h2>多文档交互</h2><p>用户可以<strong>同时向多个文档提问</strong>，即时从大型文档集中发现见解。</p><div class="tip"><strong>原理：</strong> 系统读取您的文档，构建私有知识索引，并允许您通过聊天界面进行交互 —— 一切都在安全、私密的丛林中完成。</div>'
   },
 
-  'upload': { 
+  'the-interface': {
+    cat: 'getting-started', title: '界面介绍', exc: '快速了解 Doc-Scribe.ai 是什么、如何运作，以及您的团队从第一天起可以用它做什么。',
+    body: '<p>Doc-Scribe.ai 是一个 AI 驱动的文档智能平台，帮助您的组织在一个地方存储、管理和与文档互动。您的团队无需手动搜索文件，只需提问即可在几秒钟内获得准确答案。</p><p>这段简短的视频将带您了解 Doc-Scribe.ai 是什么、如何运作，以及您的团队从第一天起可以用它做什么。</p><div class="tip"><strong>🎬 观看演示：</strong> 观看 Doc-Scribe.ai 如何改变您的团队处理文档的方式。<div class="video-embed"><a href="https://www.youtube.com/watch?v=yk_uCyhUsh0&amp;t=1s" target="_blank" rel="noopener noreferrer"><img src="images/Quick Product Overview.png" alt="Watch on YouTube" class="video-thumb small-thumb"><div class="play-overlay">▶</div></a></div></div>'
+  },
+
+  'upload': {
     cat: 'doc-management', title: '上传您的第一份文档', exc: '上传并处理首份文档的逐步指南。', 
-    body: '<p>上传文档是使用 Doc-Scribe.ai 的第一步。上传后，AI 会自动处理并为您的文档建立索引，以便进行查询。</p><h2>上传步骤</h2><ol class="steps"><li>从导航菜单中点击 <strong>上传</strong>。</li><li>从电脑中选择一个文件。</li><li>选择目的地：<strong>我的收件箱 (My Box)</strong>（私密）或 <strong>分类 (Category)</strong>（共享）。</li><li>点击 <strong>立即上传</strong>。</li></ol><img class="screenshot" src="images/image2.png" onclick="openLb(this.src)" alt="上传文档界面"><p class="screenshot-caption">上传界面 —— 选择文件并选择“我的收件箱”或“分类”作为目的地</p><h2>上传后流程</h2><ul><li>文档处理</li><li>提取文本内容</li><li>为 AI 搜索建立索引</li><li>使文档可在 AI 聊天中使用</li></ul><div class="tip"><strong>提示：</strong> 文档通常在几秒钟内即可进行 AI 交互。对于大型文件，请先稍候片刻处理完成后再进行查询。</div>' 
+    body: '<p>上传文档是使用 Doc-Scribe.ai 的第一步。上传后，AI 会自动处理并为您的文档建立索引，以便进行查询。</p><h2>上传步骤</h2><ol class="steps"><li>从导航菜单中点击 <strong>上传</strong>。</li><li>从电脑中选择一个文件。</li><li>选择目的地：<strong>我的收件箱 (My Box)</strong>（私密）或 <strong>分类 (Category)</strong>（共享）。</li><li>点击 <strong>立即上传</strong>。</li></ol><img class=”screenshot” src=”images/image2.png” onclick=”openLb(this.src)” alt=”上传文档界面”><p class=”screenshot-caption”>上传界面 —— 选择文件并选择”我的收件箱”或”分类”作为目的地</p><div class=”tip”><strong>🎬 观看演示：</strong> 观看如何上传您的第一份文档。<div class=”video-embed”><a href=”https://youtu.be/xFMmel2Ytvk” target=”_blank” rel=”noopener noreferrer”><img src=”images/upload image.png” alt=”Watch tutorial on YouTube” class=”video-thumb small-thumb”><div class=”play-overlay”>▶</div></a></div></div><h2>上传后流程</h2><ul><li>文档处理</li><li>提取文本内容</li><li>为 AI 搜索建立索引</li><li>使文档可在 AI 聊天中使用</li></ul><div class="tip"><strong>提示：</strong> 文档通常在几秒钟内即可进行 AI 交互。对于大型文件，请先稍候片刻处理完成后再进行查询。</div>'
+  },
+
+  'file-versioning': {
+    cat: 'doc-management', title: '文件版本管理', exc: '将更新的文档上传到同一位置，Doc-Scribe.ai 将自动保存为新版本，为您的团队提供完整的更改历史。',
+    body: '<p>当文档发生变更时 —— 无论是修订的合同、更新的报告还是修改的政策 —— 您无需将其作为单独的文件上传。只需将修改后的文档上传到同一位置，Doc-Scribe.ai 将把它保存为原始文件的新版本。</p><p>每次更新文档时，Doc-Scribe.ai 都会自动保存新版本 —— 让您的团队始终拥有每次更改的完整可追溯历史。</p><h2>更新新版本的步骤</h2><ol class="steps"><li>导航到您想要更新的文档。</li><li>点击现有文档上的 <strong>版本历史</strong>。</li><li>点击 <strong>上传新版本</strong>。</li><li>从电脑中选择修改后的文件。</li><li>点击 <strong>立即上传</strong>。</li></ol><img class="screenshot" src="images/FileVersioning.png" onclick="openLb(this.src)" alt="文件版本管理"><p class="screenshot-caption">版本历史 —— 上传新版本并通过完整的审计跟踪记录每次更改</p><h2>我能用版本历史做什么？</h2><ul><li>预览任何早期版本而不影响当前版本</li><li>一键恢复以前的版本</li><li>查看谁在何时进行了更改</li></ul><h2>如何访问它？</h2><p>右键点击文档 &rarr; <strong>版本历史</strong> &rarr; 选择任意版本进行预览或恢复。</p>'
   },
 
   'mybox-vs-cat': { 
@@ -109,12 +131,52 @@ window.ARTS = {
     body: '<p>Doc-Scribe.ai 提供两种文档存储环境。</p><h2>我的收件箱 (My Box)</h2><p>我的收件箱是您的<strong>个人文档空间</strong>。默认隐私存储，仅您可见。适用于草稿和个人工作。</p><img class="screenshot" src="images/image3.png" onclick="openLb(this.src)" alt="我的收件箱文件列表视图"><p class="screenshot-caption">我的收件箱 —— 您的私密文档空间，仅您可见</p><h2>分类 (Categories)</h2><p>分类是<strong>共享的部门文件夹</strong>。同部门的其他用户可以访问这些文档。</p><img class="screenshot" src="images/image4.png" onclick="openLb(this.src)" alt="带有部门分类的所有文件视图"><p class="screenshot-caption">所有文件视图 —— 文档按部门分类整理，支持 AI 搜索</p><p><strong>示例结构：</strong></p><ul><li>销售部<ul><li>报价单</li><li>价格表</li><li>竞品信息</li><li>招标书</li></ul></li></ul><h2>快速对比</h2><table><thead><tr><th>功能</th><th>我的收件箱</th><th>分类</th></tr></thead><tbody><tr><td>可见性</td><td>私密（仅限您）</td><td>共享（部门）</td></tr><tr><td>最佳用途</td><td>草稿、个人文件</td><td>团队协作</td></tr><tr><td>访问控制</td><td>由您控制</td><td>管理员 + 基于角色</td></tr></tbody></table><div class="tip"><strong>提示：</strong> 凡是暂不准备分享的文档都请放入“我的收件箱”。准备好后可移至“分类”。</div>' 
   },
 
-  'create-cat': { 
-    cat: 'doc-management', title: '创建分类', exc: '学习如何创建和管理部门文档分类。', 
-    body: '<p>分类有助于组织部门内的文档，并让合适的团队成员可以访问。</p><h2>创建分类步骤</h2><ol class="steps"><li>点击导航菜单中的 <strong>管理分类</strong>。</li><li>确保选中 <strong>主标签页 (Main Tab)</strong>。</li><li>输入 <strong>分类名称</strong>（例如：报价单）。</li><li>选择图标和颜色（可选）。</li><li>点击 <strong>创建</strong>。</li></ol><img class="screenshot" src="images/image5.png" onclick="openLb(this.src)" alt="创建分类屏幕"><p class="screenshot-caption">创建分类 —— 为您的部门分类设置名称、图标和颜色</p><div class="tip"><strong>最佳实践：</strong> 以部门或文档类型命名分类（如：财务、合同、报价单），让所有团队成员都能直观导航。</div>' 
+  'create-cat': {
+    cat: 'cat-management', title: '创建分类', exc: '学习如何创建和管理部门文档分类。',
+    body: '<p>分类有助于组织部门内的文档，并让合适的团队成员可以访问。</p><h2>创建分类步骤</h2><ol class="steps"><li>点击导航菜单中的 <strong>管理分类</strong>。</li><li>确保选中 <strong>主标签页 (Main Tab)</strong>。</li><li>输入 <strong>分类名称</strong>（例如：报价单）。</li><li>选择图标和颜色（可选）。</li><li>点击 <strong>创建</strong>。</li></ol><img class="screenshot" src="images/image5.png" onclick="openLb(this.src)" alt="创建分类屏幕"><p class="screenshot-caption">创建分类 —— 为您的部门分类设置名称、图标和颜色</p><div class="tip"><strong>最佳实践：</strong> 以部门或文档类型命名分类（如：财务、合同、报价单），让所有团队成员都能直观导航。</div>'
   },
 
-  'collections': { 
+  'edit-cat': {
+    cat: 'cat-management', title: '编辑分类', exc: '随时更新分类名称、颜色或图标，不影响其中存储的文档。',
+    body: '<p>随时更新分类名称、颜色或图标，而不影响其中存储的文档。</p><h2>编辑分类步骤</h2><ol class="steps"><li>点击左侧导航面板中的 <strong>管理分类</strong>。</li><li>在分类结构中，找到您要更新的分类。</li><li>点击分类旁边的 <strong>编辑</strong> 图标。</li><li>根据需要更新分类名称、颜色或图标。</li><li>点击 <strong>保存更改</strong>。</li></ol><img class="screenshot" src="images/edit category.png" onclick="openLb(this.src)" alt="编辑分类屏幕"><p class="screenshot-caption">编辑分类 —— 更新名称、颜色或图标</p>'
+  },
+
+  'share-cat': {
+    cat: 'cat-management', title: '共享分类', exc: '配置访问权限并与特定用户或部门共享分类。',
+    body: '<p>共享分类让您控制谁可以查看和访问其中的文档。可保持私有状态，或与您部门或其他部门的特定用户共享。</p><h2>共享分类步骤</h2><ol class="steps"><li>在分类结构中，找到您要共享的分类。</li><li>点击旁边的 <strong>共享</strong> 图标（&#x1F465;）。</li><li>共享分类对话框将出现，在访问权限下显示所选分类名称。</li><li>选择访问级别：</li></ol><table><thead><tr><th>访问级别</th><th>描述</th></tr></thead><tbody><tr><td><strong>私有</strong></td><td>仅您可以访问此分类。</td></tr><tr><td><strong>自定义</strong></td><td>仅与特定用户共享。</td></tr></tbody></table><ol class="steps" style="counter-reset: steps-cnt 4"><li>如果选择 <strong>自定义</strong>，请选择共享对象：<ul><li><strong>我的部门</strong> —— 搜索并选择部门内的用户。</li><li><strong>其他部门</strong> —— 搜索并选择其他部门的用户。</li></ul></li><li>点击 <strong>保存设置</strong>。</li></ol><img class="screenshot" src="images/share category.png" onclick="openLb(this.src)" alt="共享分类屏幕"><p class="screenshot-caption">共享分类 —— 配置访问权限并与团队成员共享</p><div class="tip"><strong>提示：</strong> 您可以同时与自己部门和其他部门的用户共享一个分类。</div>'
+  },
+
+  'delete-cat': {
+    cat: 'cat-management', title: '删除分类', exc: '删除分类前必须先移除所有子分类。',
+    body: '<p>分类只有在所有子分类都被移除后才能删除。请先完成 <strong>删除子分类</strong> 中的步骤，然后按照以下步骤操作。</p><h2>删除分类步骤</h2><ol class="steps"><li>点击左侧导航面板中的 <strong>管理分类</strong>。</li><li>在分类结构中，找到要删除的分类。</li><li>点击分类旁边的 <strong>删除</strong> 图标。</li><li>输入 <strong>Delete</strong> 以确认。</li><li>点击 <strong>Delete</strong>。</li></ol><img class="screenshot" src="images/manage category.png" onclick="openLb(this.src)" alt="删除分类屏幕"><p class="screenshot-caption">管理分类 —— 找到分类并点击删除图标</p><div class="warning"><strong>&#9888; 重要：</strong> 删除分类将永久删除其中存储的所有文档。此操作无法撤销。请确保在继续操作前已移动所有重要文档。</div>'
+  },
+
+  'subcategories': {
+    cat: 'subcat-management', title: '创建子分类', exc: '在主分类下添加子分类，以更精确地组织文档。',
+    body: '<p>创建主分类后，您可以添加子分类以更精确地组织文档。</p><h2>创建子分类步骤</h2><ol class="steps"><li>点击导航菜单中的 <strong>管理分类</strong>。</li><li>点击 <strong>子标签页 (Sub Tab)</strong>。</li><li>输入 <strong>子分类名称</strong>（例如：已批准报价单）。</li><li>选择 <strong>父分类</strong> —— 选择相关主分类（例如：报价单）。</li><li>点击 <strong>创建</strong>。</li></ol><img class="screenshot" src="images/image-subcat.png" onclick="openLb(this.src)" alt="创建子分类屏幕"><p class="screenshot-caption">创建子分类：输入子分类名称并选择父分类</p><div class="tip"><strong>结果：</strong> 新子分类将嵌套显示在所选主分类下。示例：<em>已批准报价单</em> 显示在 <em>报价单</em> 下。</div>'
+  },
+
+  'multilevel-subcat': {
+    cat: 'subcat-management', title: '创建多级子分类', exc: 'Doc-Scribe.ai 支持最多5级子分类，让文档结构精确匹配您的工作流程需求。',
+    body: '<p>Doc-Scribe.ai 支持最多 <strong>5 级子分类</strong>，让您的组织能够灵活构建文档结构，精确满足工作流程需求。</p><h2>如何创建多级子分类</h2><ol class="steps"><li>点击现有子分类上的 <strong>+ 图标</strong>，以添加新级别。</li><li>在 <strong>子标签页 (Sub Tab)</strong> 下的 <strong>名称</strong> 字段中输入子分类名称 —— 例如，<em>公司报价单</em>。</li><li>检查 <strong>父分类</strong> 路径，确认您在正确位置创建子分类。</li><li>可选择 <strong>颜色和图标</strong> 以便直观识别子分类。</li><li>点击 <strong>创建</strong>。</li></ol><img class="screenshot" src="images/create multilevel subcategory.png" onclick="openLb(this.src)" alt="创建多级子分类"><p class="screenshot-caption">创建多级子分类 —— 输入子分类名称并在点击创建前确认父分类路径</p><h2>应该创建多少层级？</h2><p>大多数团队在 2 到 3 层级内工作得很顺畅。当您需要按多个维度分类文档时 —— 例如文档类型、审批状态、年份和交易阶段 —— 更深的层级会很有用。</p><table><thead><tr><th>层级</th><th>文件夹名称</th><th>代表内容</th></tr></thead><tbody><tr><td>分类</td><td>报价单</td><td>所有报价文档</td></tr><tr><td>第 1 级</td><td>已批准报价单</td><td>仅限已确认的交易</td></tr><tr><td>第 2 级</td><td>公司报价单</td><td>按公司或实体分组</td></tr><tr><td>第 3 级</td><td>2025</td><td>按财务年度整理</td></tr><tr><td>第 4 级</td><td>Q1 —— Q4</td><td>按季度细分</td></tr><tr><td>第 5 级</td><td>待交付 / 已开票 / 已关闭</td><td>当前交易阶段</td></tr></tbody></table><h2>更深层级 —— 多级子分类的工作原理</h2><p>无论您的团队需要 2 层还是 5 层，Doc-Scribe.ai 都能适应您的结构 —— 而不是让您适应系统。每增加一个层级，团队就能更快找到所需的精确文档。</p><div class="tip"><strong>提示：</strong> 第 4 和第 5 级在日常使用中较少需要 —— 但当您的团队需要管理跨多个阶段或时期的大量文档时，这些选项随时可用。</div>'
+  },
+
+  'edit-subcat': {
+    cat: 'subcat-management', title: '编辑子分类', exc: '随时更新子分类名称、颜色或图标，不影响其中存储的文档。',
+    body: '<p>随时更新子分类名称、颜色或图标，而不影响其中存储的文档。</p><h2>编辑子分类步骤</h2><ol class="steps"><li>点击左侧导航面板中的 <strong>管理分类</strong>。</li><li>在分类结构中，找到您要更新的子分类。</li><li>点击子分类旁边的 <strong>编辑</strong> 图标。</li><li>根据需要更新子分类名称、颜色或图标。</li><li>点击 <strong>保存更改</strong>。</li></ol><img class="screenshot" src="images/edit subcategory.png" onclick="openLb(this.src)" alt="编辑子分类屏幕"><p class="screenshot-caption">编辑子分类 —— 更新名称、颜色或图标</p>'
+  },
+
+  'delete-subcat': {
+    cat: 'subcat-management', title: '删除子分类', exc: '了解如何从分类结构中永久删除子分类。',
+    body: '<p>子分类可以逐个删除。删除后，子分类中的所有文档也将被永久删除。</p><h2>删除子分类步骤</h2><ol class="steps"><li>点击左侧导航面板中的 <strong>管理分类</strong>。</li><li>在分类结构中，找到您要删除的子分类。</li><li>点击子分类旁边的 <strong>删除</strong> 图标。</li><li>将出现确认对话框。</li><li>输入 <strong>Delete</strong> 以确认。</li><li>点击 <strong>Delete</strong>。</li></ol><img class="screenshot" src="images/delete subcategory.png" onclick="openLb(this.src)" alt="删除子分类屏幕"><p class="screenshot-caption">删除子分类 —— 找到子分类并确认删除</p><div class="warning"><strong>&#9888; 重要：</strong> 删除子分类将永久删除其中存储的所有文档。此操作无法撤销。</div>'
+  },
+
+  'duplication': {
+    cat: 'doc-management', title: '文件重复检测', exc: 'Doc-Scribe.ai 在每次上传时自动检测重复文件——同时匹配文件名和文件内容——让您的存储从第一天起始终保持整洁。',
+    body: '<p>上传文档时，系统会自动检查您整个存储空间 &mdash; 包括 <strong>My Box</strong> 和<strong>分类</strong> &mdash; 中的重复文件。这一过程实时发生，在上传完成之前就已完成，让您无需事后再处理意外产生的重复文件。</p><h2>系统检查两个方面</h2><p>重复检测运行两项独立检查：</p><ul><li><strong>文件名</strong> &mdash; 如果目标位置已存在同名文件，系统弹出提示：<em>&ldquo;[文件名] 已存在于目标位置。&rdquo;</em></li><li><strong>文件内容</strong> &mdash; 如果文件内容与现有文档匹配 &mdash; 即使文件名不同 &mdash; 系统弹出提示：<em>&ldquo;内容相同 &mdash; [文件名] 已存在于同一分类中。&rdquo;</em></li></ul><h2>操作步骤</h2><ol class="steps"><li>从导航菜单点击 <strong>上传</strong>。</li><li>选择目标位置 &mdash; <strong>My Box</strong> 或<strong>分类</strong>。</li><li>选择文件或将其拖放到上传窗口中。</li><li>如果检测到重复，屏幕底部会出现提示，指明冲突内容。</li><li>选择<strong>继续上传</strong>或<strong>取消</strong>并查找现有文件。</li></ol><div class="tip"><strong>提示：</strong> 如果您收到内容重复警告，但确实需要保留独立副本，可以在上传前重命名文件。如果您是在更新现有文档，建议改用<strong>文件版本管理</strong> &mdash; 它将完整的变更历史保存在同一位置。</div>'
+  },
+
+  'collections': {
     cat: 'doc-management', title: '使用集合', exc: '将来自不同分类的文档分组到一个虚拟工作区中。', 
     body: '<p>集合允许您将 <strong>来自不同分类的文档分组</strong> 到单个虚拟工作区中。原始文件仍保留在其分类中 —— 集合只是一个策展后的视图。</p><h2>示例</h2><p><strong>集合：2025 年第一季度客户提交项</strong></p><p>文档可能来自：报价单、价格表、竞品信息、招标书。</p><h2>创建集合步骤</h2><ol class="steps"><li>从导航中点击 <strong>集合 (Collections)</strong>。</li><li>点击 <strong>新建集合</strong>。</li><li>输入集合名称。</li><li>点击 <strong>创建</strong>。</li></ol><img class="screenshot" src="images/image6.png" onclick="openLb(this.src)" alt="创建集合对话框"><p class="screenshot-caption">创建集合 —— 集合跨分类的文档，用于跨文档分析</p><div class="tip"><strong>提示：</strong> 当您在一个集合上运行 AI 搜索时，AI 会同时分析所有文档 —— 非常适合发现跨文档见解。</div>' 
   },
@@ -156,7 +218,7 @@ window.ARTS = {
 
   'account-settings': { 
     cat: 'account', title: '账户与个人资料设置', exc: '更新个人资料、密码和语言偏好。', 
-    body: '<p>您可以在<strong>个人资料设置</strong>页面管理账户详情。</p><h2>更新个人资料</h2><ol class="steps"><li>点击右上角的姓名或头像。</li><li>选择 <strong>个人资料设置</strong>。</li><li>更新姓名、邮箱或头像。</li><li>点击 <strong>保存更改</strong>。</li></ol><h2>修改密码</h2><ol class="steps"><li>进入 <strong>个人资料设置 &rarr; 安全</strong>。</li><li>输入当前密码和新密码。</li><li>点击 <strong>更新密码</strong>。</li></ol>' 
+    body: '<p>您可以在<strong>个人资料设置</strong>页面管理账户详情。</p><h2>更新个人资料</h2><ol class="steps"><li>点击右上角的姓名或头像。</li><li>选择 <strong>个人资料设置</strong>。</li><li>更新姓名、邮箱或头像。</li><li>点击 <strong>保存更改</strong>。</li></ol><h2>如何重置密码</h2><ol class="steps"><li><strong>点击「忘记密码？」</strong><br>在登录页面，点击密码栏上方的 <strong>Forgot Password?</strong> 链接。<img class="screenshot" src="images/reset-pw-step1.png" alt="登录页面 — 点击忘记密码"></li><li><strong>输入您的电子邮件地址</strong><br>输入您注册的电子邮件地址，然后点击 <strong>Send Verification Code</strong>。<img class="screenshot" src="images/reset-pw-step2.png" alt="输入电子邮件地址"></li><li><strong>查看您的电子邮件</strong><br>您将收到一封包含 <strong>6位授权码</strong> 的电子邮件。请尽快使用，因为它很快就会过期。<img class="screenshot" src="images/reset-pw-step3.png" alt="查看电子邮件获取授权码"></li><li><strong>输入验证码并设置新密码</strong><br>输入6位验证码，然后输入新密码。<img class="screenshot" src="images/reset-pw-step4.png" alt="输入验证码并设置新密码">它必须满足以下要求：<ul><li>至少8个字符</li><li>大写字母 (A&ndash;Z)</li><li>小写字母 (a&ndash;z)</li><li>数字 (0&ndash;9)</li><li>特殊字符 (!@#$%^&amp;*)</li></ul>完成后点击 <strong>Reset Password</strong>。</li><li><strong>密码重置成功！</strong><br>完成！点击 <strong>Back to Sign In</strong>，使用新密码登录。<img class="screenshot" src="images/reset-pw-step5.png" alt="密码重置成功"></li></ol><div class="tip"><strong>安全提示：</strong>使用强且独特的密码。您的授权码很快就会过期 &mdash; 请在一次会话中完成重置。</div>' 
   },
 
   'notifications': { 
@@ -188,8 +250,9 @@ window.ARTS = {
 };
 
 window.VIDEOS = [
-  { label: '入门教程', title: 'Doc-Scribe.ai 入门指南', desc: '完整演示如何上传文档、使用 AI 聊天以及整理工作区。', thumb: 'https://img.youtube.com/vi/UmLDcJ7pvK4/maxresdefault.jpg', url: 'https://youtu.be/UmLDcJ7pvK4' },
-  { label: '进阶教程', title: '精通 AI 模式与分析', desc: '探索全部六种 AI 模式，学习如何最大化跨文档分析的价值。', thumb: 'https://img.youtube.com/vi/WtNTT6OnOyk/maxresdefault.jpg', url: 'https://youtu.be/WtNTT6OnOyk' }
+  { id: 'ak2UWuSw_D0', label: '产品概述', title: '产品概述', desc: 'Doc-Scribe.ai 全面概述 — 了解它如何读取、理解文档并采取行动，消除手动数据录入。', thumb: 'images/Thumbnail Product Overview.png', url: 'https://youtu.be/ak2UWuSw_D0' },
+  { label: '入门教程', title: 'Doc-Scribe.ai 入门指南', desc: 'Doc-Scribe.ai 平台全面介绍 — 从文档摄取到 AI 驱动的提取与工作流触发。', thumb: 'images/gettingstarted.png', url: 'https://youtu.be/UmLDcJ7pvK4' },
+  { label: '进阶教程', title: '安全性与架构', desc: '深入了解 Doc-Scribe.ai 的安全模型、数据架构与部署注意事项。', thumb: 'images/docscribe_structure.png', url: 'https://youtu.be/WtNTT6OnOyk' }
 ];
 
 window.PAPERS = [

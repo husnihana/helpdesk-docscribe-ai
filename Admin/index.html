@@ -24,7 +24,7 @@
     <div class="portal-tabs">
       <a href="../index.html" class="portal-tab">User</a>
       <a href="index.html" class="portal-tab active">Admin</a>
-      <a href="../Partner/" class="portal-tab">Partner</a>
+      <a href="../Partner/index.html" class="portal-tab">Partner</a>
     </div>
 
     <div class="nav-search-wrap">
@@ -56,7 +56,7 @@
 
     <div class="lang-selector">
       <button class="btn btn-outline" id="langBtn" onclick="toggleLang()">
-        <span id="currentLang">EN</span>
+        <img src="../images/world.png" alt="Language" style="width:22px;height:22px;vertical-align:middle;">
       </button>
       <div class="lang-dropdown" id="langDropdown">
         <a class='lang-opt active' href='index.html'>English</a>
@@ -81,13 +81,13 @@
 
         <section class="hero">
           <div class="hero-bg"></div>
-          <h1>Admin <span>Help Centre</span></h1>
-          <p>System administration guides for managing users, permissions, categories, and platform configuration.</p>
+          <h1>How can we <span>help you?</span></h1>
+          <p>Explore our guides, video tutorials, and technical papers to master document intelligence.</p>
           <div class="search-container">
             <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
-            <input type="text" class="search-box" id="heroSearch" placeholder="Search admin guides..." oninput="handleSearch(this.value)">
+            <input type="text" class="search-box" id="heroSearch" placeholder="Search for answers, guides, features..." oninput="handleSearch(this.value)">
             <div class="search-results" id="searchResults"></div>
           </div>
         </section>
@@ -97,29 +97,16 @@
           <div class="cat-grid" id="catGrid"></div>
         </section>
 
-        <!-- TUTORIAL LIBRARY -->
-        <section class="container video-section" style="border-top:none;">
-          <h2 class="section-title">Tutorial Library</h2>
-          <div class="video-grid">
-
-            <div class="video-card" onclick="window.open('../video/Product%20Overview%20Doc-Scribe/Doc-Scribe%20Tutorial%20v4.html', '_blank')" title="Open fullscreen">
-              <div class="video-thumb">
-                <img src="../video/Product%20Overview%20Doc-Scribe/uploads/screenshot_001.png" alt="Doc-Scribe Product Overview">
-                <div class="play-icon">&#9654;</div>
-              </div>
-              <div class="video-info">
-                <div class="video-label">Product Overview</div>
-                <h4>Doc-Scribe Platform Walkthrough</h4>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
         <!-- VIDEOS -->
         <section class="container video-section" id="tutorials">
           <h2 class="section-title">Video Tutorials</h2>
           <div class="video-grid" id="videoGrid"></div>
+        </section>
+
+        <!-- RESOURCES -->
+        <section class="container" id="resources">
+          <h2 class="section-title">Resources &amp; White Papers</h2>
+          <div class="video-grid" id="resourceGrid"></div>
         </section>
 
       </div>

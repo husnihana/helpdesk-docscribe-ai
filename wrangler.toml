@@ -1,0 +1,5 @@
+name = "helpdesk-docscribe-ai"
+compatibility_date = "2025-04-22"
+
+[assets]
+directory = "./"

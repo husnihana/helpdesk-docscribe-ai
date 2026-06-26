@@ -23,14 +23,14 @@
       <img src="images/logo.png" alt="Doc-Scribe Logo">
       <div class="nav-logo-text">
         <div class="name">Doc-Scribe<span class="ai">.AI</span></div>
-        <div class="tagline">Help Centre</div>
+        <div class="tagline">सहायता केंद्र</div>
       </div>
     </a>
 
     <div class="portal-tabs">
-      <a href="index-hi.html" class="portal-tab active">User</a>
-      <a href="Admin/index-hi.html" class="portal-tab">Admin</a>
-      <a href="Partner/index-hi.html" class="portal-tab">Partner</a>
+      <a href="index-hi.html" class="portal-tab active">उपयोगकर्ता</a>
+      <a href="Admin/index-hi.html" class="portal-tab">व्यवस्थापक</a>
+      <a href="Partner/index-hi.html" class="portal-tab">भागीदार</a>
     </div>
 
     <div class="nav-search-wrap">
@@ -39,15 +39,15 @@
         <circle cx="11" cy="11" r="8" />
         <path d="m21 21-4.35-4.35" />
       </svg>
-      <input type="text" class="nav-search-input" placeholder="Search guides..." oninput="handleNavSearch(this.value)">
+      <input type="text" class="nav-search-input" placeholder="मार्गदर्शिकाएँ खोजें..." oninput="handleNavSearch(this.value)">
     </div>
 
     <div class="nav-links">
-      <a href="#resources">Resources</a>
-      <a href="#tutorials">Tutorials</a>
+      <a href="#resources">संसाधन</a>
+      <a href="#tutorials">ट्यूटोरियल</a>
     </div>
 
-    <a href="https://doc-scribe.ai" target="_blank" class="btn btn-primary">Try Product</a>
+    <a href="https://doc-scribe.ai" target="_blank" class="btn btn-primary">उत्पाद आज़माएँ</a>
 
     <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
       <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -64,7 +64,7 @@
 
     <div class="lang-selector">
       <button class="btn btn-outline" id="langBtn" onclick="toggleLang()">
-        <span id="currentLang">EN</span>
+        <img src="images/world.png" alt="Language" style="width:22px;height:22px;vertical-align:middle;">
       </button>
       <div class="lang-dropdown" id="langDropdown">
         <a class='lang-opt' href='index.html'>English</a>
@@ -94,34 +94,34 @@
         <!-- HERO -->
         <section class="hero">
           <div class="hero-bg"></div>
-          <h1>How can we <span>help you?</span></h1>
-          <p>Explore our guides, video tutorials, and technical papers to master document intelligence.</p>
+          <h1>हम आपकी कैसे <span>मदद कर सकते हैं?</span></h1>
+          <p>डॉक्यूमेंट इंटेलिजेंस में महारत हासिल करने के लिए हमारे मार्गदर्शिकाएँ, वीडियो ट्यूटोरियल और तकनीकी पेपर देखें।</p>
           <div class="search-container">
             <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
               stroke-width="2.5">
               <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
             </svg>
             <input type="text" class="search-box" id="heroSearch"
-              placeholder="Search for answers, guides, features..." oninput="handleSearch(this.value)">
+              placeholder="उत्तर, मार्गदर्शिकाएँ, फ़ीचर्स खोजें..." oninput="handleSearch(this.value)">
             <div class="search-results" id="searchResults"></div>
           </div>
         </section>
 
         <!-- CATEGORIES -->
         <section class="container">
-          <h2 class="section-title">Browse by Topic</h2>
+          <h2 class="section-title">विषय के अनुसार ब्राउज़ करें</h2>
           <div class="cat-grid" id="catGrid"></div>
         </section>
 
         <!-- VIDEOS -->
         <section class="container video-section" id="tutorials">
-          <h2 class="section-title">Video Tutorials</h2>
+          <h2 class="section-title">वीडियो ट्यूटोरियल</h2>
           <div class="video-grid" id="videoGrid"></div>
         </section>
 
         <!-- RESOURCES -->
         <section class="container" id="resources">
-          <h2 class="section-title">Resources &amp; White Papers</h2>
+          <h2 class="section-title">संसाधन और व्हाइट पेपर्स</h2>
           <div class="video-grid" id="resourceGrid"></div>
         </section>
 
@@ -131,7 +131,7 @@
       <div id="articleView" class="article-view fade-up">
         <div class="breadcrumb" id="breadcrumb"></div>
         <header class="article-header">
-          <h1 id="artTitle">Article Title</h1>
+          <h1 id="artTitle">लेख शीर्षक</h1>
         </header>
         <div class="content-body" id="artBody"></div>
         <div class="article-footer" id="artNav"></div>
@@ -145,10 +145,10 @@
             </svg>
           </div>
           <div class="s-cta-text">
-            <h3>Still need help?</h3>
-            <p>Our support team is available 24/7 for premium enterprise users.</p>
+            <h3>क्या आपको अभी भी सहायता चाहिए?</h3>
+            <p>हमारी सहायता टीम प्रीमियम एंटरप्राइज़ उपयोगकर्ताओं के लिए 24/7 उपलब्ध है।</p>
           </div>
-          <a href="#" class="btn btn-primary">Contact Support</a>
+          <a href="#" class="btn btn-primary">संपर्क सहायता</a>
         </div>
       </div>
 
@@ -162,27 +162,27 @@
                   <div class="name">Doc-Scribe<span class="ai">.AI</span></div>
                 </div>
               </div>
-              <p>AI-powered document intelligence for enterprise knowledge management.
-                Transform your static documents into interactive knowledge assets.</p>
+              <p>एंटरप्राइज़ ज्ञान प्रबंधन के लिए AI-संचालित दस्तावेज़ बुद्धिमत्ता।
+                अपने स्थिर दस्तावेज़ों को इंटरैक्टिव ज्ञान संपत्तियों में बदलें।</p>
             </div>
             <div class="footer-col">
-              <h4>Solution</h4>
-              <a href="#">Features</a><a href="#">Security</a><a href="#">Pricing</a><a href="#">Enterprise</a>
+              <h4>समाधान</h4>
+              <a href="#">फ़ीचर</a><a href="#">सुरक्षा</a><a href="#">मूल्य निर्धारण</a><a href="#">एंटरप्राइज़</a>
             </div>
             <div class="footer-col">
-              <h4>Support</h4>
-              <a href="#" onclick="showHome(); return false;">Help Centre</a>
-              <a href="#">API Docs</a><a href="#">System Status</a><a href="#">Contact</a>
+              <h4>सहायता</h4>
+              <a href="#" onclick="showHome(); return false;">सहायता केंद्र</a>
+              <a href="#">API दस्तावेज़</a><a href="#">प्रणाली स्थिति</a><a href="#">संपर्क</a>
             </div>
             <div class="footer-col">
-              <h4>Legal</h4>
-              <a href="#">Privacy Policy</a><a href="#">Terms of Service</a>
-              <a href="#">Cookie Policy</a><a href="#">Security</a>
+              <h4>कानूनी</h4>
+              <a href="#">गोपनीयता नीति</a><a href="#">सेवा की शर्तें</a>
+              <a href="#">कुकी नीति</a><a href="#">सुरक्षा</a>
             </div>
           </div>
           <div class="footer-bottom">
-            <p>&copy; 2026 Doc-Scribe<span>.ai</span> — All rights reserved.</p>
-            <div>Built with precision for premium enterprise users.</div>
+            <p>&copy; 2026 Doc-Scribe<span>.ai</span> — सर्वाधिकार सुरक्षित।</p>
+            <div>प्रीमियम एंटरप्राइज़ उपयोगकर्ताओं के लिए सटीकता से निर्मित।</div>
           </div>
         </div>
       </footer>

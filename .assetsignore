@@ -1,0 +1,14 @@
+.git
+.git/**
+.claude
+.claude/**
+node_modules
+node_modules/**
+web.config
+wrangler.toml
+worker.js
+_redirects
+.assetsignore
+*.docx
+README.md
+TODO.md

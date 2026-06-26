@@ -185,12 +185,14 @@ function renderVideoGrid() {
     <div class="video-card" onclick="window.open('${v.url}', '_blank')">
       <div class="video-thumb">
         <img src="${v.thumb}" alt="${v.title}">
-        <div class="play-icon">&#9654;</div>
       </div>
+      <div class="video-play-btn">&#9654;</div>
       <div class="video-info">
-        <div class="video-label">${v.label}</div>
         <h4>${v.title}</h4>
+        ${v.desc ? `<p class="video-desc">${v.desc}</p>` : ''}
+        <div class="video-meta">&#9654; Video &middot; YouTube</div>
       </div>
+      <a class="video-watch-btn" onclick="event.stopPropagation(); window.open('${v.url}', '_blank')">&#9654; Watch</a>
     </div>
   `).join('');
 }
